@@ -1,16 +1,23 @@
-<div class="login-container">
-  <div class="login-card">
+<main class="login-container">
+  <section class="login-card">
     <h1>Login</h1>
-    <input
-      type="email"
-      name="email"
-      id="email"
-      placeholder="Digite seu e-mail"
-    />
-    <input type="password" name="" id="" />
-    <span>esqueceu a senha?</span>
-    <button>Entrar</button>
-  </div>
+    <form [formGroup]="loginForm">
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Digite seu e-mail"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Digite sua senha"
+      />
+      <a href="#forgotPassword">esqueceu a senha?</a>
+      <button>Entrar</button>
+    </form>
+  </section>
 
-  <footer>{{"@"}}Contact Support: (11) 98020-6897</footer>
-</div>
+  <footer>{{ "@" }}Contact Support: (11) 98020-6897</footer>
+</main>
