@@ -1,0 +1,19 @@
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #FFD700; /* amarelo de fundo, como no logo */
+}
+
+.logo {
+  width: 250px; /* ajuste conforme necessário */
+  height: auto;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
