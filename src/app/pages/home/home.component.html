@@ -1,3 +1,13 @@
 <main>
   <app-header></app-header>
+
+  <div class="container-menu">
+    <ul>
+      <li *ngFor="let rotina of rotinasIcon">
+        <img [src]="rotina.icon" [alt]="rotina.nome" [ngStyle]="rotina.nome === 'Estoque' ? {'transform': 'scale(1.4)'} : {}">
+      </li>
+    </ul>
+  </div>
+
+
 </main>

@@ -1,0 +1,28 @@
+.container-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+ul {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  text-align: center;
+}
+
+img {
+  display: block;
+  width: 100px;
+  height: 120px;
+  object-fit: contain;
+  margin: 0 auto;
+  cursor: pointer;
+}
