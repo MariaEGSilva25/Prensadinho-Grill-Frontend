@@ -1,21 +1,30 @@
 <main class="login-container">
-  <section class="login-card">
-    <h1>Login</h1>
-    <form [formGroup]="loginForm">
+  <section>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-card">
+      <h1>Login</h1>
       <input
         type="email"
         name="email"
         id="email"
         placeholder="Digite seu e-mail"
+        formControlName="email"
       />
       <input
         type="password"
         name="password"
         id="password"
         placeholder="Digite sua senha"
+        formControlName="password"
       />
+      <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        <small *ngIf="loginForm.get('email')?.errors?.['required']">E-mail é obrigatório.</small>
+        <small *ngIf="loginForm.get('email')?.errors?.['email']">E-mail inválido.</small>
+        <br>
+        <small *ngIf="loginForm.get('password')?.errors?.['required']">a senha é obrigatório.</small>
+        <small *ngIf="loginForm.get('password')?.errors?.['password']">E-mail inválido.</small>
+      </div>
       <a href="#forgotPassword">esqueceu a senha?</a>
-      <button>Entrar</button>
+      <button type="submit">Entrar</button>
     </form>
   </section>
 

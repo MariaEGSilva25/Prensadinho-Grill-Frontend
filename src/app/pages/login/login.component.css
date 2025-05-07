@@ -18,6 +18,12 @@
   text-align: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .login-card input {
   width: 100%;
   max-width: 300px;
@@ -26,6 +32,7 @@
   border: none;
   background-color: #FFF1A9;
   box-sizing: border-box;
+  outline: none;
 }
 
 .login-card button {
@@ -52,6 +59,11 @@
   font-size: 1.2rem;
 }
 
+small {
+  font-size: 1rem;
+  color: #ff0000;
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -60,6 +72,8 @@ footer {
   text-align: center;
   padding: 1rem;
 }
+
+
 
 /* Responsivo para telas menores */
 @media (max-width: 500px) {
