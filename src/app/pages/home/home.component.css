@@ -1,8 +1,25 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+main {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container-menu {
+  overflow: hidden;
+}
+
 .container-menu {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 ul {
@@ -11,11 +28,14 @@ ul {
   align-items: center;
   justify-content: center;
   padding: 0;
+  overflow: hidden;
+  flex-wrap: wrap;
 }
 
 li {
   list-style: none;
   text-align: center;
+  overflow: hidden;
 }
 
 img {
@@ -25,4 +45,7 @@ img {
   object-fit: contain;
   margin: 0 auto;
   cursor: pointer;
+  overflow: hidden;
 }
+
+

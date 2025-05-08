@@ -3,9 +3,11 @@ body{
   padding: 0;
   margin: 0;
   font-family: 'inter', sans-serif;
+  overflow: hidden;
 }
 
 ::root{
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
