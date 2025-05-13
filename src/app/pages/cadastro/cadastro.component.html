@@ -1,1 +1,23 @@
-<p>cadastro works!</p>
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button class="close-btn" (click)="onFechar()">✖</button>
+      <h2>Cadastro</h2>
+    </div>
+    <form class="modal-form">
+      <span>ID Produto</span>
+      <input type="text" placeholder="ID Produto" />
+      <span>Descrição</span>
+      <input type="text" placeholder="Descrição" />
+      <span>Preço Unid.</span>
+      <input type="text" placeholder="Preço Unid." />
+      <span>Estoque Mínimo</span>
+      <input type="number" placeholder="Estoque Mínimo" />
+      <span>Estoque Máximo</span>
+      <input type="number" placeholder="Estoque Máximo" />
+      <button type="button" class="submit-btn" (click)="onConcluir()">
+        CONCLUÍDO
+      </button>
+    </form>
+  </div>
+</div>

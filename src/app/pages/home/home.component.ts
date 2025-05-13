@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from "../components/header/header.component";
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../components/header/header.component';
+import { CommonModule } from '@angular/common';
+import { CadastroComponent } from '../cadastro/cadastro.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
+  imports: [HeaderComponent, CadastroComponent, CommonModule],
 })
 export class HomeComponent {
+  mostrarModalCadastro:boolean = true;
+
   rotinasIcon = [
     { nome: 'cadastro', icon: '/assets/Cadastro.png' },
     { nome: 'venda', icon: '/assets/Venda.png' },
@@ -19,10 +22,23 @@ export class HomeComponent {
   ];
 
 
-  constructor(private route: Router){}
+  constructor(private route: Router) {}
 
-  naveguePara(rota: string){
-    console.log("oiiii estou fucionando");
-    this.route.navigate( [`/${rota}`]);
+  naveguePara(rota: string) {
+    if (rota === 'cadastro') {
+      this.mostrarModalCadastro = true;
+      return;
+    }
+
+    this.route.navigate([`/${rota}`]);
+  }
+
+  fecharModal() {
+    this.mostrarModalCadastro = false;
+  }
+
+  concluirCadastro() {
+    // lógica ao concluir cadastro
+    this.mostrarModalCadastro = false;
   }
 }
