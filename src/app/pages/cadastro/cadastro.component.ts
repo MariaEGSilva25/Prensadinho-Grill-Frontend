@@ -1,3 +1,4 @@
+import { UtilsModalService } from './../../../services/utils-modal.service';
 import { CommonModule } from '@angular/common';
 import { Component} from '@angular/core';
 
@@ -9,5 +10,12 @@ import { Component} from '@angular/core';
   styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {
+
+  constructor(private utilsModal: UtilsModalService) {}
+
+  close(){
+    this.utilsModal.closeModal();
+    console.log('Modal closed');
+  }
 
 }

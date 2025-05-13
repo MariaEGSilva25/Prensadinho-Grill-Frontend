@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HeaderComponent } from '../components/header/header.component';
 import { CommonModule } from '@angular/common';
 import { CadastroComponent } from '../cadastro/cadastro.component';
+import { UtilsModalService } from '../../../services/utils-modal.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { CadastroComponent } from '../cadastro/cadastro.component';
   imports: [HeaderComponent, CadastroComponent, CommonModule],
 })
 export class HomeComponent {
-  mostrarModalCadastro:boolean = true;
+
 
   rotinasIcon = [
     { nome: 'cadastro', icon: '/assets/Cadastro.png' },
@@ -22,23 +23,16 @@ export class HomeComponent {
   ];
 
 
-  constructor(private route: Router) {}
+  constructor(private route: Router, public utilsModal: UtilsModalService) {}
 
   naveguePara(rota: string) {
     if (rota === 'cadastro') {
-      this.mostrarModalCadastro = true;
+      this.utilsModal.openModal();
       return;
     }
 
     this.route.navigate([`/${rota}`]);
   }
 
-  fecharModal() {
-    this.mostrarModalCadastro = false;
-  }
 
-  concluirCadastro() {
-    // lógica ao concluir cadastro
-    this.mostrarModalCadastro = false;
-  }
 }
