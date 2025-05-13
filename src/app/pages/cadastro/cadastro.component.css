@@ -109,6 +109,10 @@
   align-items: center;
 }
 
+small{
+  color: red;
+}
+
 /* Responsividade */
 @media (min-width: 768px) {
   .modal {

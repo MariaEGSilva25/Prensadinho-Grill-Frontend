@@ -1,21 +1,68 @@
 import { UtilsModalService } from './../../../services/utils-modal.service';
-import { CommonModule } from '@angular/common';
-import { Component} from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SucessComponent } from '../components/sucess/sucess.component';
+
+
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent ],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {
+  cadastroForm!: FormGroup;
+  showSuccessModal: boolean = false;
 
-  constructor(private utilsModal: UtilsModalService) {}
+  constructor(private utilsModal: UtilsModalService) {
+    this.cadastroForm = new FormGroup({
+      idProduto: new FormControl('', Validators.required),
+      descricao: new FormControl('', Validators.required),
+      preco: new FormControl('', Validators.required),
+      estoqueMinimo: new FormControl('', Validators.required),
+      estoqueMaximo: new FormControl('', Validators.required),
+    });
+  }
 
-  close(){
+  close() {
     this.utilsModal.closeModal();
     console.log('Modal closed');
   }
 
+
+  // onSubmit() {
+  //   if (this.cadastroForm.valid) {
+  //     const cadastroData = this.cadastroForm.value;
+  //     // quando o formulario for valido, exibir toast e fechar o modal
+  //     this.showSuccessModal = true;
+  //     console.log('cadastro enviado:', cadastroData);
+
+
+  //   } else {
+  //     console.log('Formulário inválido');
+  //     this.cadastroForm.markAllAsTouched();
+  //   }
+  // }
+
+  onSubmit() {
+  if (this.cadastroForm.valid) {
+    const cadastroData = this.cadastroForm.value;
+
+    this.showSuccessModal = true;
+    console.log('cadastro enviado:', cadastroData);
+
+    // Esconde o modal após 2 segundos e fecha o modal principal
+    setTimeout(() => {
+      this.showSuccessModal = false;
+      this.close(); // chama seu método para fechar o modal principal
+    }, 2000);
+
+  } else {
+    console.log('Formulário inválido');
+    this.cadastroForm.markAllAsTouched();
+  }
+}
 }
