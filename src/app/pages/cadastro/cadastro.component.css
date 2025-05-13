@@ -1,68 +1,123 @@
 .modal-overlay {
+  font-family: 'Inter', sans-serif;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* fundo escuro */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(3, 3, 3, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.modal-content {
+.modal {
+  width: 100%%;
+  max-width: 450px;
+  height: auto;
+  max-height: 90vh;
   background-color: white;
-  height: 70vh;
-  width: 90%;
-  max-width: 400px;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-header {
-  background-color: #FFD700;
+  background-color: #ffd700;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-.close-btn {
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.close-button {
   position: absolute;
   left: 1rem;
   top: 1rem;
-  background: none;
-  border: 1px solid;
-  font-size: 1.2rem;
-  font-weight: 100;
+  background-color: #ffd700;
   color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
 }
 
 .modal-form {
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+
+}
+
+.modal-form label {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0.25rem;
 }
 
 .modal-form input {
-  margin-bottom: 0.8rem;
   padding: 0.5rem;
-  background-color: #FFF176;
+  background-color: #ffef87;
   border: none;
   border-radius: 4px;
+  width: 100%;
+  max-width: 400px;
+
 }
 
-.submit-btn {
-  background-color: #ADFF2F;
+.submit-button {
+  margin-top: 1.25rem;
+  background-color: #adff2f;
   border: none;
-  padding: 0.8rem;
+  border-radius: 4px;
+  padding: 0.75rem;
   font-weight: bold;
-  border-radius: 6px;
+  color: black;
   cursor: pointer;
-  width: 50%;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.modal-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .modal {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal {
+    width: 40%;
+  }
 }

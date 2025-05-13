@@ -1,23 +1,29 @@
 <div class="modal-overlay">
-  <div class="modal-content">
+  <div class="modal">
     <div class="modal-header">
-      <button class="close-btn" (click)="onFechar()">✖</button>
+      <button class="close-button">✖</button>
       <h2>Cadastro</h2>
     </div>
+
     <form class="modal-form">
-      <span>ID Produto</span>
-      <input type="text" placeholder="ID Produto" />
-      <span>Descrição</span>
-      <input type="text" placeholder="Descrição" />
-      <span>Preço Unid.</span>
-      <input type="text" placeholder="Preço Unid." />
-      <span>Estoque Mínimo</span>
-      <input type="number" placeholder="Estoque Mínimo" />
-      <span>Estoque Máximo</span>
-      <input type="number" placeholder="Estoque Máximo" />
-      <button type="button" class="submit-btn" (click)="onConcluir()">
-        CONCLUÍDO
-      </button>
+      <label>ID Produto</label>
+      <input type="text" />
+
+      <label>Descrição</label>
+      <input type="text" />
+
+      <label>Preço Unid.</label>
+      <input type="text" />
+
+      <label>Estoque Mínimo</label>
+      <input type="text" />
+
+      <label>Estoque Máximo</label>
+      <input type="text" />
+
+      <div class="modal-button">
+        <button type="submit" class="submit-button">CONCLUÍDO</button>
+      </div>
     </form>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-cadastro',
@@ -9,17 +9,5 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {
-  @Output() fechar = new EventEmitter<void>();
-  @Output() concluir = new EventEmitter<void>();
 
-  onFechar() {
-
-    this.fechar.emit();
-    console.log('esou fechando o modal de cadastro');
-  }
-
-  onConcluir() {
-    console.log('Cadastro concluído!');
-    this.concluir.emit();
-  }
 }
