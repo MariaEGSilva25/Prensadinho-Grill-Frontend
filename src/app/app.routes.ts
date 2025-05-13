@@ -9,11 +9,10 @@ import { FiadoComponent } from './pages/fiado/fiado.component';
 
 export const routes: Routes = [
   { path: '', component:VinhetaComponent },
-  { path: 'home', component:VinhetaComponent },
-  { path: 'login', component:HomeComponent },
+  { path: 'home', component:HomeComponent },
+  { path: 'login', component:LoginComponent },
   { path: 'cadastro', component:CadastroComponent },
   { path: 'venda', component:VendaComponent },
   { path: 'estoque', component:EstoqueComponent },
   { path: 'fiado', component:FiadoComponent },
-
 ];
