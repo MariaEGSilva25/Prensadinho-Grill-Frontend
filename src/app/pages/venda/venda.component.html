@@ -9,7 +9,7 @@
     </div>
 
     <div class="grid">
-      <button *ngFor="let btn of botoes" (click)="adicionarValor(btn)">
+      <button *ngFor="let btn of botoes" (click)="adicionarValor(btn)" class="btn-tec">
         {{ btn }}
       </button>
       <button (click)="confirmar()" class="btn-ok">OK</button>
