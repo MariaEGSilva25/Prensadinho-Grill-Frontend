@@ -1,0 +1,129 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+
+.visor-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.visor {
+  flex: 1;
+  font-size: 24px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  background-color: #fff7c2;
+  text-align: right;
+}
+
+.btn-apagar {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  font-size: 20px;
+  padding: 10px 15px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+/* Teclado numérico */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.grid button {
+  padding: 15px;
+  font-size: 22px;
+  background-color: #fff0b3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-ok {
+  grid-column: span 1;
+  background-color: #66ff66;
+  font-weight: bold;
+}
+
+/* Formas de pagamento */
+.formas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.formas button {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #fff0b3;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+.col {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #fefefe;
+  border-radius: 10px;
+  width: 30%;
+  min-width: 280px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.grid button,
+.formas button {
+  padding: 10px;
+  font-size: 18px;
+  background-color: #ffefc1;
+  border: none;
+  border-radius: 5px;
+}
+
+
+
+
+.botoes-final {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.botoes-final button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+}
+
+.marcar {
+  background-color: #ccc;
+}
+
+.receber {
+  background-color: #8bc34a;
+  color: white;
+}
+
+.cancelar {
+  background-color: #f44336;
+  color: white;
+}

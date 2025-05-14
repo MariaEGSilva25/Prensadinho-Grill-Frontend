@@ -1,1 +1,56 @@
-<p>venda works!</p>
+<div class="container">
+  <!-- Coluna 1: Teclado de pagamento -->
+   <div class="col pagamento">
+    <p>Informe uma forma de pagamento!</p>
+
+    <div class="visor-container">
+      <input type="text" [(ngModel)]="valorAtual" readonly class="visor" />
+      <button (click)="apagar()" class="btn-apagar">⌫</button>
+    </div>
+
+    <div class="grid">
+      <button *ngFor="let btn of botoes" (click)="adicionarValor(btn)">
+        {{ btn }}
+      </button>
+      <button (click)="confirmar()" class="btn-ok">OK</button>
+    </div>
+
+    <div class="formas">
+      <button (click)="selecionarTipo('Dinheiro')">1-Dinheiro</button>
+      <button (click)="selecionarTipo('Crédito')">2-Crédito</button>
+      <button (click)="selecionarTipo('Débito')">3-Débito</button>
+      <button (click)="selecionarTipo('Pix')">4-Pix</button>
+    </div>
+  </div>
+
+  <!-- Coluna 2: Tipos selecionados -->
+  <div class="col selecionados">
+    <h4>TIPOS SELECIONADOS</h4>
+    <ul>
+      <li *ngFor="let tipo of tiposSelecionados">{{ tipo }}</li>
+    </ul>
+  </div>
+
+  <!-- Coluna 3: Nota fiscal -->
+  <div class="col nota">
+    <h4>NOTA FISCAL</h4>
+    <p>Atendente: Diego Souza</p>
+    <hr />
+    <div class="itens">
+      <p *ngFor="let item of itens">
+        {{ item.qtd }} x {{ item.nome }} - R$ {{ item.valor.toFixed(2) }}
+      </p>
+    </div>
+    <hr />
+    <div class="totais">
+      <p>Subtotal: R$ {{ subtotal.toFixed(2) }}</p>
+      <p>Desconto: R$ {{ desconto.toFixed(2) }}</p>
+      <p><strong>Total: R$ {{ total.toFixed(2) }}</strong></p>
+    </div>
+    <div class="botoes-final">
+      <button class="marcar">Marcar Fiado</button>
+      <button class="receber">Receber</button>
+      <button class="cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
