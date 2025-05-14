@@ -132,3 +132,104 @@
   background-color: #f44336;
   color: white;
 }
+
+
+.col-selecionados{
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  align-items: center;
+  height: 65vh;
+  width: 25%;
+  border: solid 1px #000;
+}
+
+
+/* notas */
+
+.col-selecionados h4{
+  font-weight: 500;
+}
+
+.col-nota {
+  background: #FFF59633;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: solid 1px #000;
+  width: 100%;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  height: 75vh;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+h4 {
+  margin: 0 auto 5px;
+  font-weight: bold;
+}
+
+.containeUser {
+  width: 100%;
+}
+
+.linha, .linha-valor {
+  width: 100%;
+  border-bottom: 1px dashed #000;
+  margin: 5px 0;
+}
+
+.itens {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.itens > span {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.produtos-valores {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2px 0;
+}
+
+.totais {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.totais-valor-titulo, .totais-valor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.totais-valor {
+  text-align: right;
+}
+
+.totais strong {
+  font-weight: bold;
+}
+
+.botoes-final {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.botoes-final button {
+  color: black;
+  padding: 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
