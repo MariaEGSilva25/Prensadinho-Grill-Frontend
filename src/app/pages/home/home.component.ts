@@ -27,7 +27,7 @@ export class HomeComponent {
 
   naveguePara(rota: string) {
     if (rota === 'cadastro') {
-      this.utilsModal.openModal();
+      this.utilsModal.openModal("completo");
       return;
     }
 

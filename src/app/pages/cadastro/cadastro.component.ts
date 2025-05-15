@@ -9,22 +9,31 @@ import { SucessComponent } from '../components/sucess/sucess.component';
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent ],
+  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {
   cadastroForm!: FormGroup;
   showSuccessModal: boolean = false;
+  formMode: string = this.utilsModal.formMode;
 
   constructor(private utilsModal: UtilsModalService) {
-    this.cadastroForm = new FormGroup({
-      idProduto: new FormControl('', Validators.required),
-      descricao: new FormControl('', Validators.required),
-      preco: new FormControl('', Validators.required),
-      estoqueMinimo: new FormControl('', Validators.required),
-      estoqueMaximo: new FormControl('', Validators.required),
-    });
+
+    if (this.utilsModal.formMode === 'completo') {
+      this.cadastroForm = new FormGroup({
+        idProduto: new FormControl('', Validators.required),
+        descricao: new FormControl('', Validators.required),
+        preco: new FormControl('', Validators.required),
+        estoqueMinimo: new FormControl('', Validators.required),
+        estoqueMaximo: new FormControl('', Validators.required),
+      });
+    } else {
+      this.cadastroForm = new FormGroup({
+        nomeFiado: new FormControl('', Validators.required),
+        telefoneFiado: new FormControl('', Validators.required),
+      });
+    }
   }
 
   close() {
@@ -48,21 +57,20 @@ export class CadastroComponent {
   // }
 
   onSubmit() {
-  if (this.cadastroForm.valid) {
-    const cadastroData = this.cadastroForm.value;
+    if (this.cadastroForm.valid) {
+      const cadastroData = this.cadastroForm.value;
 
-    this.showSuccessModal = true;
-    console.log('cadastro enviado:', cadastroData);
+      this.showSuccessModal = true;
+      console.log('cadastro enviado:', cadastroData);
 
-    // Esconde o modal após 2 segundos e fecha o modal principal
-    setTimeout(() => {
-      this.showSuccessModal = false;
-      this.close(); // chama seu método para fechar o modal principal
-    }, 2000);
+      setTimeout(() => {
+        this.showSuccessModal = false;
+        this.close();
+      }, 2000);
 
-  } else {
-    console.log('Formulário inválido');
-    this.cadastroForm.markAllAsTouched();
+    } else {
+      console.log('Formulário inválido');
+      this.cadastroForm.markAllAsTouched();
+    }
   }
-}
 }

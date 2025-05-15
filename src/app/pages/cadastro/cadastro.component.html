@@ -6,75 +6,106 @@
     </div>
 
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="modal-form">
-      <!-- ID Produto -->
-      <label>ID Produto</label>
-      <input type="number" formControlName="idProduto" />
-      <div
-        *ngIf="
-          cadastroForm.get('idProduto')?.touched &&
-          cadastroForm.get('idProduto')?.invalid
-        "
-      >
-        <small *ngIf="cadastroForm.get('idProduto')?.errors?.['required']"
-          >ID Produto é obrigatório.</small
+      <ng-container *ngIf="formMode === 'completo'">
+        <!-- ID Produto -->
+        <label>ID Produto</label>
+        <input type="number" formControlName="idProduto" />
+        <div
+          *ngIf="
+            cadastroForm.get('idProduto')?.touched &&
+            cadastroForm.get('idProduto')?.invalid
+          "
         >
-      </div>
+          <small *ngIf="cadastroForm.get('idProduto')?.errors?.['required']"
+            >ID Produto é obrigatório.</small
+          >
+        </div>
 
-      <!-- Descrição -->
-      <label>Descrição</label>
-      <input type="text" formControlName="descricao" />
-      <div
-        *ngIf="
-          cadastroForm.get('descricao')?.touched &&
-          cadastroForm.get('descricao')?.invalid
-        "
-      >
-        <small *ngIf="cadastroForm.get('descricao')?.errors?.['required']"
-          >Descrição é obrigatória.</small
+        <!-- Descrição -->
+        <label>Descrição</label>
+        <input type="text" formControlName="descricao" />
+        <div
+          *ngIf="
+            cadastroForm.get('descricao')?.touched &&
+            cadastroForm.get('descricao')?.invalid
+          "
         >
-      </div>
+          <small *ngIf="cadastroForm.get('descricao')?.errors?.['required']"
+            >Descrição é obrigatória.</small
+          >
+        </div>
 
-      <!-- Preço -->
-      <label>Preço Unid.</label>
-      <input type="text" formControlName="preco" />
-      <div
-        *ngIf="
-          cadastroForm.get('preco')?.touched &&
-          cadastroForm.get('preco')?.invalid
-        "
-      >
-        <small *ngIf="cadastroForm.get('preco')?.errors?.['required']"
-          >Preço é obrigatório.</small
+        <!-- Preço -->
+        <label>Preço Unid.</label>
+        <input type="text" formControlName="preco" />
+        <div
+          *ngIf="
+            cadastroForm.get('preco')?.touched &&
+            cadastroForm.get('preco')?.invalid
+          "
         >
-      </div>
+          <small *ngIf="cadastroForm.get('preco')?.errors?.['required']"
+            >Preço é obrigatório.</small
+          >
+        </div>
 
-      <!-- Estoque Mínimo -->
-      <label>Estoque Mínimo</label>
-      <input type="number" formControlName="estoqueMinimo" />
-      <div
-        *ngIf="
-          cadastroForm.get('estoqueMinimo')?.touched &&
-          cadastroForm.get('estoqueMinimo')?.invalid
-        "
-      >
-        <small *ngIf="cadastroForm.get('estoqueMinimo')?.errors?.['required']"
-          >Estoque mínimo é obrigatório.</small
+        <!-- Estoque Mínimo -->
+        <label>Estoque Mínimo</label>
+        <input type="number" formControlName="estoqueMinimo" />
+        <div
+          *ngIf="
+            cadastroForm.get('estoqueMinimo')?.touched &&
+            cadastroForm.get('estoqueMinimo')?.invalid
+          "
         >
-      </div>
+          <small *ngIf="cadastroForm.get('estoqueMinimo')?.errors?.['required']"
+            >Estoque mínimo é obrigatório.</small
+          >
+        </div>
 
-      <!-- Estoque Máximo -->
-      <label>Estoque Máximo</label>
-      <input type="number" formControlName="estoqueMaximo" />
-      <div
-        *ngIf="
-          cadastroForm.get('estoqueMaximo')?.touched &&
-          cadastroForm.get('estoqueMaximo')?.invalid
-        "
-      >
-        <small *ngIf="cadastroForm.get('estoqueMaximo')?.errors?.['required']"
-          >Estoque máximo é obrigatório.</small
+        <!-- Estoque Máximo -->
+        <label>Estoque Máximo</label>
+        <input type="number" formControlName="estoqueMaximo" />
+        <div
+          *ngIf="
+            cadastroForm.get('estoqueMaximo')?.touched &&
+            cadastroForm.get('estoqueMaximo')?.invalid
+          "
         >
-      </div>
+          <small *ngIf="cadastroForm.get('estoqueMaximo')?.errors?.['required']"
+            >Estoque máximo é obrigatório.</small
+          >
+        </div>
+      </ng-container>
+
+      <!-- Cadastro simples -->
+      <ng-container *ngIf="formMode === 'simples'">
+        <label>Nome Completo</label>
+        <input type="text" formControlName="nomeFiado" />
+        <div
+          *ngIf="
+            cadastroForm.get('nomeFiado')?.touched &&
+            cadastroForm.get('nomeFiado')?.invalid
+          "
+        >
+          <small *ngIf="cadastroForm.get('nomeFiado')?.errors?.['required']"
+            >O nome é obrigatório.</small
+          >
+        </div>
+
+        <label>Telefone</label>
+        <input type="number" formControlName="telefoneFiado" maxlength="11" />
+        <div
+          *ngIf="
+            cadastroForm.get('telefoneFiado')?.touched &&
+            cadastroForm.get('telefoneFiado')?.invalid
+          "
+        >
+          <small *ngIf="cadastroForm.get('telefoneFiado')?.errors?.['required']"
+            >O telefone é obrigatório.</small
+          >
+        </div>
+      </ng-container>
 
       <!-- Botão -->
       <div class="modal-button">
@@ -82,7 +113,6 @@
       </div>
     </form>
   </div>
-
 
   <app-sucess *ngIf="showSuccessModal"></app-sucess>
 </div>

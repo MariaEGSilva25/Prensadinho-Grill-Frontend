@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // <-- Import necessário
+import { FormsModule } from '@angular/forms';
+import { UtilsModalService } from '../../../services/utils-modal.service';
+import { CadastroComponent } from '../cadastro/cadastro.component';
 
 @Component({
   selector: 'app-venda',
   standalone: true,
-  imports: [CommonModule, FormsModule], // <-- Adicione aqui também
+  imports: [CommonModule, FormsModule, CadastroComponent],
   templateUrl: './venda.component.html',
   styleUrl: './venda.component.css'
 })
@@ -21,6 +23,10 @@ export class VendaComponent {
   ];
 
   desconto = 0;
+
+  constructor(public utilsModal: UtilsModalService) {
+
+  }
 
   get subtotal() {
     return this.itens.reduce((soma, item) => soma + item.valor * item.qtd, 0);

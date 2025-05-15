@@ -4,9 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UtilsModalService {
+  formMode: string = 'completo';
+
   showModal: boolean = false;
 
-  openModal(): void {
+  openModal(formModeParan: string): void {
+
+    console.log('formMode:', formModeParan);
+    this.formMode = formModeParan
     this.showModal = true;
     console.log('Modal opened');
   }
