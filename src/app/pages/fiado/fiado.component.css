@@ -1,0 +1,83 @@
+.estoque-container {
+  font-family:  Helvetica, sans-serif;
+  font-size: 1.2rem;
+  margin: 20px;
+}
+
+h1 {
+  font-family:  'Times New Roman', Times, serif, sans-serif;
+  font-weight: 300;
+  font-size: 3rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-text {
+  color: red;
+}
+
+.date-time {
+  font-size: 12px;
+  text-align: right;
+}
+
+.header-actions{
+  padding-bottom: 2rem;
+}
+
+.search-bar {
+
+  display: flex;
+  gap: 10px;
+  width: 50%;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: #fff3a3;
+  border: none;
+  border-radius: 8px;
+}
+
+.filter-btn {
+  background-color: #fff3a3;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+table {
+  width: 70%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #fff3a3;
+}
+
+thead th {
+  padding: 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+tbody td {
+  padding: 10px;
+  font-size: 14px;
+  border-bottom: 8px solid #fff3a3;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+td img {
+  width: 16px;
+  height: 16px;
+}

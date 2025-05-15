@@ -1,1 +1,38 @@
-<p>estoque works!</p>
+<div class="estoque-container">
+  <div class="header">
+    <h1><span class="menu-text">Menu</span> / Estoque</h1>
+    <div class="date-time">
+      <span>12/11/2024</span>
+      <span>01:33</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="search-bar">
+      <input type="text" placeholder="Pesquisar Nome/ID" />
+      <button class="filter-btn">
+        <img src="assets/Filtro.png" alt="Filtro" />
+      </button>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID Produto</th>
+        <th>Descrição do Produto</th>
+        <th>Estoque Atual</th>
+        <th>Preço</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produto of produtos">
+        <td>{{ produto.id }}</td>
+        <td>{{ produto.descricao }}</td>
+        <td>{{ produto.estoque }}</td>
+        <td>R$ {{ produto.preco.toFixed(2) }}</td>
+        <td><img src="assets/menu_humburguer.png" alt="Ação" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

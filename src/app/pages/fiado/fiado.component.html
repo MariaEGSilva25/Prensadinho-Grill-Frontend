@@ -1,1 +1,41 @@
-<p>fiado works!</p>
+<div class="estoque-container">
+  <div class="header">
+    <h1><span class="menu-text">Menu</span> / Fiados</h1>
+    <div class="date-time">
+      <span>12/11/2024</span>
+      <span>01:33</span>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <div class="search-bar">
+      <input type="text" placeholder="Pesquisar Nome/ID" />
+      <button class="filter-btn">
+        <img src="assets/Filtro.png" alt="Filtro" />
+      </button>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Nota Pendente</th>
+        <th>Telefone</th>
+        <th>Valor</th>
+        <th>Data</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ cliente.nome }}</td>
+        <td>{{ cliente.notaPendente }}</td>
+        <td>{{ cliente.telefone }}</td>
+        <td>R$ {{ cliente.valor }}</td>
+        <td>R$ {{ cliente.data }}</td>
+        <td><img src="assets/menu_humburguer.png" alt="Ação" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
