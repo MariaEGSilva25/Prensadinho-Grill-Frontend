@@ -3,15 +3,19 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UtilsModalService } from '../../../services/utils-modal.service';
 import { CadastroComponent } from '../cadastro/cadastro.component';
+import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-venda',
   standalone: true,
-  imports: [CommonModule, FormsModule, CadastroComponent],
+  imports: [CommonModule, FormsModule, CadastroComponent, ConfirmationComponent],
   templateUrl: './venda.component.html',
   styleUrl: './venda.component.css'
 })
 export class VendaComponent {
+chamaModalConfirmation(arg0: string) {
+throw new Error('Method not implemented.');
+}
   botoes = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ','];
 
   tiposSelecionados: string[] = [];
@@ -52,4 +56,6 @@ export class VendaComponent {
     this.tiposSelecionados.push(`${tipo} - R$ ${this.valorAtual}`);
     this.valorAtual = '';
   }
+
+
 }

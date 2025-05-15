@@ -8,6 +8,8 @@ export class UtilsModalService {
 
   showModal: boolean = false;
 
+  confirmationModal: boolean = false;
+
   openModal(formModeParan: string): void {
 
     console.log('formMode:', formModeParan);
@@ -19,5 +21,20 @@ export class UtilsModalService {
   closeModal(): void {
     this.showModal = false;
     console.log('Modal closed');
+  }
+
+  openModalConfirmation(modalActivit: boolean): void {
+    this.confirmationModal = modalActivit;
+    console.log('Modal opened');
+  }
+
+  closeModalConfirmation(): void {
+    this.confirmationModal = false;
+    console.log('Modal closed');
+  }
+
+  cancelModalConfirmation(modalActivit: boolean): void {
+    this.confirmationModal = modalActivit;
+
   }
 }

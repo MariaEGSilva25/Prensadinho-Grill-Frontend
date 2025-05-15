@@ -1,0 +1,11 @@
+<div class="containerConfirmacao">
+  <div class="confirmacao">
+    <h4>Tem certeza?</h4>
+    <div class="containerBtn">
+      <button class="btn-s" (click)="chamaModalSucess()">Sim</button>
+      <button class="btn-n" (click)="utils.closeModalConfirmation()">Não</button>
+    </div>
+  </div>
+</div>
+
+<app-sucess *ngIf="showSuccessModal === true"></app-sucess>

@@ -1,0 +1,56 @@
+.containerConfirmacao {
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirmacao{
+  background-color: #D9D9D9;
+  padding: 40px 60px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #000;
+  text-align: center;
+  width: 542px;
+}
+
+h4{
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.containerConfirmacao .btn-s {
+  width: 100px;
+  height: 40px;
+  background-color: #adff2f;
+  border-radius: 8px;
+  border: none;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.containerConfirmacao .btn-n {
+    width: 100px;
+  height: 40px;
+  background-color: #FA4949;
+  border-radius: 8px;
+  border: none;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.containerBtn{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
