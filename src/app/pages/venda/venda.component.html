@@ -81,7 +81,7 @@
     <button class="marcar" (click)="utilsModal.openModal('simples')">Marcar <br>
       Fiado</button>
     <button class="receber" (click)="utilsModal.openModalConfirmation(true)">Receber</button>
-    <button class="cancelar" (click)="utilsModal.openModalConfirmation(true)">Cancelar</button>
+    <button class="cancelar" (click)="utilsModal.cancelModalConfirmation(true)">Cancelar</button>
   </div>
 
   <app-cadastro *ngIf="utilsModal.showModal" ></app-cadastro>

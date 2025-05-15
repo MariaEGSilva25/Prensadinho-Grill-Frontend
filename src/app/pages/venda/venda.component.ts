@@ -28,6 +28,12 @@ throw new Error('Method not implemented.');
 
   desconto = 0;
 
+  ngOnInit(){
+    //corrigir erro do modal de confirmação iniciar como true
+    this.utilsModal.confirmationModal = false;
+    console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
+  }
+
   constructor(public utilsModal: UtilsModalService) {
 
   }

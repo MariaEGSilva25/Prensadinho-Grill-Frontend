@@ -17,12 +17,25 @@ export class ConfirmationComponent {
 
   constructor(public utils: UtilsModalService, private route: Router) { }
 
+  //o que eu preciso que execute quando o modal vier do botão cancelar
+
+
   chamaModalSucess() {
-    this.showSuccessModal = true;
-    setTimeout(() => {
-      this.showSuccessModal = false;
+    if (this.utils.cancelConfirmation) {
+      this.utils.closeModalConfirmation
       this.route.navigate(['home']);
-    }, 2000)
+      console.log("voltando pra home e fechando o modal de confirmação");
+    } else {
+      this.showSuccessModal = true;
+      setTimeout(() => {
+        this.showSuccessModal = false;
+        this.utils.closeModalConfirmation
+        this.route.navigate(['home']);
+        console.log("voltando pra home e fechando o modal de confirmação e exibindo o modal de sucesso");
+      }, 2000)
+
+
+    }
 
   }
 }
