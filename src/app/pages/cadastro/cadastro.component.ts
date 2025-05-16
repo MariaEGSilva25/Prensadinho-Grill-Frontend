@@ -1,15 +1,17 @@
+import { CadastroService } from './../../../services/cadastro.service';
 import { UtilsModalService } from './../../../services/utils-modal.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SucessComponent } from '../components/sucess/sucess.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent],
+  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent, HttpClientModule],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })
@@ -18,20 +20,22 @@ export class CadastroComponent {
   showSuccessModal: boolean = false;
   formMode: string = this.utilsModal.formMode;
 
-  constructor(private utilsModal: UtilsModalService) {
+  constructor(private utilsModal: UtilsModalService, private cadastroService: CadastroService) {
 
     if (this.utilsModal.formMode === 'completo') {
       this.cadastroForm = new FormGroup({
-        idProduto: new FormControl('', Validators.required),
-        descricao: new FormControl('', Validators.required),
-        preco: new FormControl('', Validators.required),
-        estoqueMinimo: new FormControl('', Validators.required),
-        estoqueMaximo: new FormControl('', Validators.required),
+        productCode: new FormControl('', Validators.required),
+        //mudei o nome do campo descricao para name
+        name: new FormControl('', Validators.required),
+        quantity: new FormControl('', Validators.required),
+        unitPrice: new FormControl('', Validators.required),
+        minimumStock: new FormControl('', Validators.required),
+        maximumStock: new FormControl('', Validators.required),
       });
     } else {
       this.cadastroForm = new FormGroup({
-        nomeFiado: new FormControl('', Validators.required),
-        telefoneFiado: new FormControl('', Validators.required),
+        name: new FormControl('', Validators.required),
+        phone: new FormControl('', Validators.required),
       });
     }
   }
@@ -42,31 +46,28 @@ export class CadastroComponent {
   }
 
 
-  // onSubmit() {
-  //   if (this.cadastroForm.valid) {
-  //     const cadastroData = this.cadastroForm.value;
-  //     // quando o formulario for valido, exibir toast e fechar o modal
-  //     this.showSuccessModal = true;
-  //     console.log('cadastro enviado:', cadastroData);
-
-
-  //   } else {
-  //     console.log('Formulário inválido');
-  //     this.cadastroForm.markAllAsTouched();
-  //   }
-  // }
-
   onSubmit() {
     if (this.cadastroForm.valid) {
       const cadastroData = this.cadastroForm.value;
 
-      this.showSuccessModal = true;
-      console.log('cadastro enviado:', cadastroData);
+      // Enviar os dados para o serviço
+      this.cadastroService.criarProduto(cadastroData).subscribe({
+        next: (response) => {
+          console.log('Produto criado com sucesso:', response);
 
-      setTimeout(() => {
-        this.showSuccessModal = false;
-        this.close();
-      }, 2000);
+          this.showSuccessModal = true;
+
+          setTimeout(() => {
+            this.showSuccessModal = false;
+            this.close();
+          }, 2000);
+
+        },
+        error: (error) => {
+          console.error('Erro ao criar produto:', error);
+        }
+      })
+
 
     } else {
       console.log('Formulário inválido');
