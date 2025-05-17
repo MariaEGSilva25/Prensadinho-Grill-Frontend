@@ -5,6 +5,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SucessComponent } from '../components/sucess/sucess.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FiadoService } from '../../../services/fiado.service';
+import { DeleteAllService } from '../../../services/delete-all.service';
 
 
 
@@ -20,7 +22,10 @@ export class CadastroComponent {
   showSuccessModal: boolean = false;
   formMode: string = this.utilsModal.formMode;
 
-  constructor(private utilsModal: UtilsModalService, private cadastroService: CadastroService) {
+  constructor(private utilsModal: UtilsModalService,
+    private cadastroService: CadastroService,
+    private fiadoService: FiadoService,
+    private deleteAll: DeleteAllService) {
 
     if (this.utilsModal.formMode === 'completo') {
       this.cadastroForm = new FormGroup({
@@ -65,15 +70,15 @@ export class CadastroComponent {
 
         console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
 
-        // this.cadastroService.criarFiado(cadastroData).subscribe({
-        //   next: (response) => {
-        //     console.log('Fiado criado com sucesso:', response);
-        //     this.exibirModalSucesso();
-        //   },
-        //   error: (error) => {
-        //     console.error('Erro ao criar fiado:', error);
-        //   }
-        // });
+        this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
+          next: (response) => {
+            console.log('Fiado criado com sucesso:', response);
+            this.exibirModalSucesso();
+          },
+          error: (error) => {
+            console.error('Erro ao criar fiado:', error);
+          }
+        });
       }
     } else {
       console.log('Formulário inválido');
