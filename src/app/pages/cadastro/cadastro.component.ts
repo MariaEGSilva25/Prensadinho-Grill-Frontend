@@ -7,6 +7,7 @@ import { SucessComponent } from '../components/sucess/sucess.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FiadoService } from '../../../services/fiado.service';
 import { DeleteAllService } from '../../../services/delete-all.service';
+import { Router } from '@angular/router';
 
 
 
@@ -25,7 +26,8 @@ export class CadastroComponent {
   constructor(private utilsModal: UtilsModalService,
     private cadastroService: CadastroService,
     private fiadoService: FiadoService,
-    private deleteAll: DeleteAllService) {
+    private deleteAll: DeleteAllService,
+    private route: Router ) {
 
     if (this.utilsModal.formMode === 'completo') {
       this.cadastroForm = new FormGroup({
@@ -73,7 +75,17 @@ export class CadastroComponent {
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
           next: (response) => {
             console.log('Fiado criado com sucesso:', response);
-            this.exibirModalSucesso();
+
+            this.deleteAll.deleteAllProducts().subscribe({
+              next: (response) => {
+                console.log('Produtos deletados:', response);
+              }, error: (error) => {
+                this.exibirModalSucesso();
+                this.route.navigate(['/home']);
+                console.error('Erro ao deletar produtos:', error);
+              }
+            });
+
           },
           error: (error) => {
             console.error('Erro ao criar fiado:', error);
@@ -90,8 +102,8 @@ export class CadastroComponent {
   private exibirModalSucesso() {
     this.showSuccessModal = true;
     setTimeout(() => {
-      this.showSuccessModal = false;
       this.close();
+      this.showSuccessModal = false;
     }, 2000);
   }
 }
