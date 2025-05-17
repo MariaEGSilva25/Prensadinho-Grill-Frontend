@@ -50,28 +50,43 @@ export class CadastroComponent {
     if (this.cadastroForm.valid) {
       const cadastroData = this.cadastroForm.value;
 
-      // Enviar os dados para o serviço
-      this.cadastroService.criarProduto(cadastroData).subscribe({
-        next: (response) => {
-          console.log('Produto criado com sucesso:', response);
+      if (this.formMode === 'completo') {
+        this.cadastroService.criarProduto(cadastroData).subscribe({
+          next: (response) => {
+            console.log('Produto criado com sucesso:', response);
+            this.exibirModalSucesso();
+          },
+          error: (error) => {
+            console.error('Erro ao criar produto:', error);
+          }
+        });
+      } else {
+        const cadastroFiadoData = this.cadastroForm.value;
 
-          this.showSuccessModal = true;
+        console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
 
-          setTimeout(() => {
-            this.showSuccessModal = false;
-            this.close();
-          }, 2000);
-
-        },
-        error: (error) => {
-          console.error('Erro ao criar produto:', error);
-        }
-      })
-
-
+        // this.cadastroService.criarFiado(cadastroData).subscribe({
+        //   next: (response) => {
+        //     console.log('Fiado criado com sucesso:', response);
+        //     this.exibirModalSucesso();
+        //   },
+        //   error: (error) => {
+        //     console.error('Erro ao criar fiado:', error);
+        //   }
+        // });
+      }
     } else {
       console.log('Formulário inválido');
       this.cadastroForm.markAllAsTouched();
     }
+  }
+
+  // ✅ Aqui está o método que você perguntou
+  private exibirModalSucesso() {
+    this.showSuccessModal = true;
+    setTimeout(() => {
+      this.showSuccessModal = false;
+      this.close();
+    }, 2000);
   }
 }

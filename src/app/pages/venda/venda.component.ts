@@ -1,9 +1,11 @@
+import { EstoqueService } from './../../../services/estoque.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UtilsModalService } from '../../../services/utils-modal.service';
 import { CadastroComponent } from '../cadastro/cadastro.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
+import { DeleteAllService } from '../../../services/delete-all.service';
 
 @Component({
   selector: 'app-venda',
@@ -13,28 +15,43 @@ import { ConfirmationComponent } from '../components/confirmation/confirmation.c
   styleUrl: './venda.component.css'
 })
 export class VendaComponent {
-chamaModalConfirmation(arg0: string) {
-throw new Error('Method not implemented.');
-}
+  chamaModalConfirmation(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   botoes = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ','];
 
   tiposSelecionados: string[] = [];
   valorAtual = '';
 
   itens = [
-    { qtd: 1, nome: 'Coca Cola 2L', valor: 12.0 },
-    { qtd: 2, nome: 'Guaraviton', valor: 6.0 },
+    { qtd: 0, nome: '', valor: 0 },
+    { qtd: 0, nome: '', valor: 0 },
   ];
 
   desconto = 0;
 
-  ngOnInit(){
+  ngOnInit() {
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
+
+
+    this.estoqueService.getAllProducts().subscribe({
+      next: (response) => {
+        console.log('Produtos recebidos:', response);
+        this.itens = (Array.isArray(response) ? response : []).map((item: any) => ({
+          qtd: item.quantity,
+          nome: item.name,
+          valor: item.unitPrice
+        }))
+      },
+      error: (error) => {
+        console.error('Erro ao buscar produtos:', error);
+      }
+    })
   }
 
-  constructor(public utilsModal: UtilsModalService) {
+  constructor(public utilsModal: UtilsModalService, private estoqueService: EstoqueService, private deleteAll: DeleteAllService) {
 
   }
 
@@ -63,5 +80,26 @@ throw new Error('Method not implemented.');
     this.valorAtual = '';
   }
 
+
+  receberValor() {
+    const condicao1 = this.itens[0].valor !== 0;
+    const condicao2 = this.tiposSelecionados.length !=  0;
+
+    if (condicao1 && condicao2) {
+      console.log('tipo selecionado: ', this.tiposSelecionados);
+      this.utilsModal.openModalConfirmation(true)
+
+      this.deleteAll.deleteAllProducts().subscribe({
+        next: (response) => {
+          console.log('Produtos deletados:', response);
+        },
+        error: (error) => {
+          console.error('Erro ao deletar produtos:', error);
+        }
+       })
+    }else{
+      alert('Você tem um debito pendente, pague o que deve!');
+    }
+  }
 
 }
