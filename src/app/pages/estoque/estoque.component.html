@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <table>
+  <table *ngIf="!semProdutos">
     <thead>
       <tr>
         <th>ID Produto</th>
@@ -27,12 +27,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let produto of produtos">
-        <td>{{ produto.id }}</td>
-        <td>{{ produto.descricao }}</td>
-        <td>{{ produto.estoque }}</td>
-        <td>R$ {{ produto.preco.toFixed(2) }}</td>
+        <td>{{ produto.id || '-' }}</td>
+        <td>{{ produto.nome }}</td>
+        <td>{{ produto.qtd }}</td>
+        <td>R$ {{ produto.valor?.toFixed(2) }}</td>
         <td><img src="assets/menu_humburguer.png" alt="Ação" /></td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="semProdutos" class="mensagem-vazia">
+    Nenhum produto cadastrado no estoque.
+  </div>
 </div>

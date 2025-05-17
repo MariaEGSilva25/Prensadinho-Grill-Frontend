@@ -27,7 +27,7 @@ export class CadastroComponent {
     private cadastroService: CadastroService,
     private fiadoService: FiadoService,
     private deleteAll: DeleteAllService,
-    private route: Router ) {
+    private route: Router) {
 
     if (this.utilsModal.formMode === 'completo') {
       this.cadastroForm = new FormGroup({
@@ -79,10 +79,21 @@ export class CadastroComponent {
             this.deleteAll.deleteAllProducts().subscribe({
               next: (response) => {
                 console.log('Produtos deletados:', response);
-              }, error: (error) => {
+
+                // ✅ Exibe o modal e depois de 2 segundos navega
                 this.exibirModalSucesso();
-                this.route.navigate(['/home']);
+                setTimeout(() => {
+                  this.route.navigate(['/home']);
+                }, 2000);
+              },
+              error: (error) => {
                 console.error('Erro ao deletar produtos:', error);
+
+                // Mesmo se der erro, você pode exibir o modal e depois navegar
+                this.exibirModalSucesso();
+                setTimeout(() => {
+                  this.route.navigate(['/home']);
+                }, 2000);
               }
             });
 
