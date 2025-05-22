@@ -1,3 +1,4 @@
+
 import { EstoqueService } from './../../../services/estoque.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -6,6 +7,8 @@ import { UtilsModalService } from '../../../services/utils-modal.service';
 import { CadastroComponent } from '../cadastro/cadastro.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { DeleteAllService } from '../../../services/delete-all.service';
+import { CadastroService } from '../../../services/cadastro.service';
+import { Product } from '../../../types/Product';
 
 @Component({
   selector: 'app-venda',
@@ -28,6 +31,8 @@ export class VendaComponent {
     { qtd: 0, nome: '', valor: 0 },
   ];
 
+  cadastroFiado: Product[] = []
+
   desconto = 0;
 
   ngOnInit() {
@@ -37,9 +42,14 @@ export class VendaComponent {
 
 
     this.estoqueService.getAllProducts().subscribe({
+
       next: (response) => {
+        const isArrayResponse = Array.isArray(response) ? response : []
+
         console.log('Produtos recebidos:', response);
-        this.itens = (Array.isArray(response) ? response : []).map((item: any) => ({
+        console.log('Valor do isArrayResponse:', isArrayResponse);
+        this.cadastroFiado = (isArrayResponse)
+        this.itens = (isArrayResponse).map((item: any) => ({
           qtd: item.quantity,
           nome: item.name,
           valor: item.unitPrice
@@ -51,7 +61,10 @@ export class VendaComponent {
     })
   }
 
-  constructor(public utilsModal: UtilsModalService, private estoqueService: EstoqueService, private deleteAll: DeleteAllService) {
+  constructor(public utilsModal: UtilsModalService,
+    private estoqueService: EstoqueService,
+    private deleteAll: DeleteAllService,
+    private cadastroService: CadastroService) {
 
   }
 
@@ -83,11 +96,13 @@ export class VendaComponent {
 
   receberValor() {
     const condicao1 = this.itens[0].valor !== 0;
-    const condicao2 = this.tiposSelecionados.length !=  0;
+    const condicao2 = this.tiposSelecionados.length != 0;
 
     if (condicao1 && condicao2) {
       console.log('tipo selecionado: ', this.tiposSelecionados);
       this.utilsModal.openModalConfirmation(true)
+
+
 
       this.deleteAll.deleteAllProducts().subscribe({
         next: (response) => {
@@ -96,10 +111,37 @@ export class VendaComponent {
         error: (error) => {
           console.error('Erro ao deletar produtos:', error);
         }
-       })
-    }else{
+      })
+    } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }
   }
 
+  cadastrarFiado() {
+
+
+    this.utilsModal.openModal('simples');
+
+    const teste = this.cadastroFiado[0];
+
+    teste.productCode= 1
+
+    console.log("valor de Array maquiado: ", teste);
+
+    this.cadastroService.criarProduto(teste).subscribe({
+      next: (response) => {
+        console.log('Fiado criado com sucesso:', response);
+        this.utilsModal.openModal('simples');
+      },
+      error: (error) => {
+        console.error('Erro ao criar fiado:', error);
+      }
+    });
+
+
+  }
+
 }
+
+
+

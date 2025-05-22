@@ -30,12 +30,12 @@ export class FiadoComponent implements OnInit {
         console.log('Fiados recebidos:', response);
         const lista = Array.isArray(response) ? response : [];
         this.clientes = lista.map((item: any) => ({
-          id: item.id || 'SEM_ID',
-          nome: item.nome || item.name || 'Cliente Desconhecido',
-          notaPendente: item.notaPendente || 'Sem Nota',
-          telefone: item.telefone || 'Sem Telefone',
-          valor: item.valor || 0,
-          data: item.data || 'Sem Data'
+          id: item.id ,
+          nome: item.nome ,
+          notaPendente: "nota anexada",
+          telefone: item.telefone,
+          valor: item.valor ,
+          data: item.data
         }));
         this.semClientes = this.clientes.length === 0;
       },
