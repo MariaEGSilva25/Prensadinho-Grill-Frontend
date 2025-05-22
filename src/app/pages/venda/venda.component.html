@@ -38,53 +38,61 @@
   <!-- Coluna 3: Nota fiscal -->
 
   <div>
-  <div class="col-nota">
-    <div>
-      <h4>NOTA FISCAL</h4>
-      <div class="containeUser">
-        <p>Atendente: Pato Donald </p>
-      </div>
-      <div class="linha"></div>
-
-      <div class="itens">
-        <span>Itens</span>
+    <div class="col-nota">
+      <div>
+        <h4>NOTA FISCAL</h4>
+        <div class="containeUser">
+          <p>Atendente: Pato Donald</p>
+        </div>
         <div class="linha"></div>
 
-        <div class="produtos-valores" *ngFor="let item of itens">
-          <span>{{ item.qtd }} X {{ item.nome }}</span>
-          <span>R$ {{ item.valor.toFixed(2) }}</span>
+        <div class="itens">
+          <span>Itens</span>
+          <div class="linha"></div>
+
+          <div class="produtos-valores" *ngFor="let item of itensFiltrados">
+
+            <span>{{ item.qtd }} X {{ item.nome }}</span>
+
+            <span>R$ {{ item.valor.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="linha-valor"></div>
+        <div class="totais">
+          <div class="totais-valor-titulo">
+            <span>Subtotal:</span>
+            <span>Desconto:</span>
+            <span><strong>Total:</strong></span>
+          </div>
+          <div class="totais-valor">
+            <span>R$ {{ subtotal.toFixed(2) }}</span>
+            <span>R$ {{ desconto.toFixed(2) }}</span>
+            <span
+              ><strong>R$ {{ total.toFixed(2) }}</strong></span
+            >
+          </div>
         </div>
       </div>
     </div>
 
-
-    <div>
-      <div class="linha-valor"></div>
-      <div class="totais">
-        <div class="totais-valor-titulo">
-          <span>Subtotal:</span>
-          <span>Desconto:</span>
-          <span><strong>Total:</strong></span>
-        </div>
-        <div class="totais-valor">
-          <span>R$ {{ subtotal.toFixed(2) }}</span>
-          <span>R$ {{ desconto.toFixed(2) }}</span>
-          <span
-            ><strong>R$ {{ total.toFixed(2) }}</strong></span
-          >
-        </div>
-      </div>
+    <div class="botoes-final">
+      <button class="marcar" (click)="cadastrarFiado()">
+        Marcar <br />
+        Fiado
+      </button>
+      <button class="receber" (click)="receberValor()">Receber</button>
+      <button
+        class="cancelar"
+        (click)="utilsModal.cancelModalConfirmation(true)"
+      >
+        Cancelar
+      </button>
     </div>
-  </div>
 
-  <div class="botoes-final">
-    <button class="marcar" (click)="this.utilsModal.openModal('simples');">Marcar <br>
-      Fiado</button>
-    <button class="receber" (click)="receberValor()">Receber</button>
-    <button class="cancelar" (click)="utilsModal.cancelModalConfirmation(true)">Cancelar</button>
-  </div>
-
-  <app-cadastro *ngIf="utilsModal.showModal" ></app-cadastro>
-  <app-confirmation *ngIf="utilsModal.confirmationModal" ></app-confirmation>
+    <app-cadastro *ngIf="utilsModal.showModal"></app-cadastro>
+    <app-confirmation *ngIf="utilsModal.confirmationModal"></app-confirmation>
   </div>
 </div>

@@ -21,7 +21,7 @@ interface Cliente {
 })
 export class FiadoComponent implements OnInit {
   clientes: Cliente[] = [];
-  semClientes: boolean = false;
+  semClientes: boolean = true;
   valor = 0;
 
   constructor(private fiadoService: FiadoService, private estoqueService: EstoqueService) { }
@@ -34,6 +34,8 @@ export class FiadoComponent implements OnInit {
         for (const p of arrayValid) {
           this.valor = p.unitPrice;
         }
+
+        console.log("Preço produto: ", this.valor)
       },
       error: (error) => {
         console.log("não deu certo deu erro: ", error)

@@ -18,6 +18,8 @@ import { Product } from '../../../types/Product';
   styleUrl: './venda.component.css'
 })
 export class VendaComponent {
+
+
   chamaModalConfirmation(arg0: string) {
     throw new Error('Method not implemented.');
   }
@@ -25,6 +27,7 @@ export class VendaComponent {
 
   tiposSelecionados: string[] = [];
   valorAtual = '';
+  executarGet : boolean = false;
 
   itens = [
     { qtd: 0, nome: '', valor: 0 },
@@ -51,6 +54,11 @@ export class VendaComponent {
     this.estoqueService.getAllProducts().subscribe({
 
       next: (response) => {
+        if(!this.executarGet){
+          console.log("Bloqueado pelo controle")
+          return
+        }
+
         const isArrayResponse = Array.isArray(response) ? response : []
 
         console.log('Produtos recebidos:', response);
@@ -67,6 +75,11 @@ export class VendaComponent {
       }
     })
   }
+
+  get itensFiltrados() {
+    return this.itens.filter(i => i.qtd !== 0 && i.nome !== '');
+  }
+
 
 
   get subtotal() {
@@ -110,28 +123,11 @@ export class VendaComponent {
     }
   }
 
-  // cadastrarFiado() {
+  cadastrarFiado() {
 
+    this.utilsModal.openModal('simples')
 
-
-  //   const teste = this.cadastroFiado[0];
-
-  //   teste.productCode = 1
-
-  //   console.log("valor de Array maquiado: ", teste);
-
-  //   this.cadastroService.criarProduto(teste).subscribe({
-  //     next: (response) => {
-  //       console.log('Fiado criado com sucesso:', response);
-  //       this.utilsModal.openModal('simples');
-  //     },
-  //     error: (error) => {
-  //       console.error('Erro ao criar fiado:', error);
-  //     }
-  //   });
-
-
-  // }
+  }
 
 
   deletarProdutos() {
