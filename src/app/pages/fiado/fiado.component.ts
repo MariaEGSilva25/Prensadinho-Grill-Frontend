@@ -1,3 +1,4 @@
+import { EstoqueService } from './../../../services/estoque.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FiadoService } from './../../../services/fiado.service'; // ajuste o caminho conforme necessário
@@ -21,22 +22,40 @@ interface Cliente {
 export class FiadoComponent implements OnInit {
   clientes: Cliente[] = [];
   semClientes: boolean = false;
+  valor = 0;
 
-  constructor(private fiadoService: FiadoService) {}
+  constructor(private fiadoService: FiadoService, private estoqueService: EstoqueService) { }
 
   ngOnInit(): void {
+    this.estoqueService.getAllProducts().subscribe({
+      next: (response) => {
+        // agora que eu sei que o array é valido
+        const arrayValid = Array.isArray(response) ? response : []
+        for (const p of arrayValid) {
+          this.valor = p.unitPrice;
+        }
+      },
+      error: (error) => {
+        console.log("não deu certo deu erro: ", error)
+      }
+    })
+
+
+
     this.fiadoService.getAllFiados().subscribe({
       next: (response) => {
         console.log('Fiados recebidos:', response);
         const lista = Array.isArray(response) ? response : [];
+
         this.clientes = lista.map((item: any) => ({
-          id: item.id ,
-          nome: item.nome ,
+          id: item.id,
+          nome: item.name,
           notaPendente: "nota anexada",
-          telefone: item.telefone,
-          valor: item.valor ,
-          data: item.data
+          telefone: item.phone,
+          valor: this.valor,
+          data: new Date().toLocaleDateString("pt-BR"),
         }));
+
         this.semClientes = this.clientes.length === 0;
       },
       error: (error) => {
@@ -44,5 +63,6 @@ export class FiadoComponent implements OnInit {
         this.semClientes = true;
       }
     });
+
   }
 }

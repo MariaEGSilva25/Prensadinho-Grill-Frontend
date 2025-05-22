@@ -35,6 +35,13 @@ export class VendaComponent {
 
   desconto = 0;
 
+  constructor(public utilsModal: UtilsModalService,
+    private estoqueService: EstoqueService,
+    private deleteAll: DeleteAllService,
+    private cadastroService: CadastroService) {
+
+  }
+
   ngOnInit() {
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
@@ -61,12 +68,6 @@ export class VendaComponent {
     })
   }
 
-  constructor(public utilsModal: UtilsModalService,
-    private estoqueService: EstoqueService,
-    private deleteAll: DeleteAllService,
-    private cadastroService: CadastroService) {
-
-  }
 
   get subtotal() {
     return this.itens.reduce((soma, item) => soma + item.valor * item.qtd, 0);
@@ -102,45 +103,48 @@ export class VendaComponent {
       console.log('tipo selecionado: ', this.tiposSelecionados);
       this.utilsModal.openModalConfirmation(true)
 
+      this.deletarProdutos();
 
-
-      this.deleteAll.deleteAllProducts().subscribe({
-        next: (response) => {
-          console.log('Produtos deletados:', response);
-        },
-        error: (error) => {
-          console.error('Erro ao deletar produtos:', error);
-        }
-      })
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }
   }
 
-  cadastrarFiado() {
+  // cadastrarFiado() {
 
 
-    this.utilsModal.openModal('simples');
 
-    const teste = this.cadastroFiado[0];
+  //   const teste = this.cadastroFiado[0];
 
-    teste.productCode= 1
+  //   teste.productCode = 1
 
-    console.log("valor de Array maquiado: ", teste);
+  //   console.log("valor de Array maquiado: ", teste);
 
-    this.cadastroService.criarProduto(teste).subscribe({
+  //   this.cadastroService.criarProduto(teste).subscribe({
+  //     next: (response) => {
+  //       console.log('Fiado criado com sucesso:', response);
+  //       this.utilsModal.openModal('simples');
+  //     },
+  //     error: (error) => {
+  //       console.error('Erro ao criar fiado:', error);
+  //     }
+  //   });
+
+
+  // }
+
+
+  deletarProdutos() {
+    this.deleteAll.deleteAllProducts().subscribe({
       next: (response) => {
-        console.log('Fiado criado com sucesso:', response);
-        this.utilsModal.openModal('simples');
+        console.log('Produtos deletados:', response);
       },
       error: (error) => {
-        console.error('Erro ao criar fiado:', error);
+        console.error('Erro ao deletar produtos:', error);
       }
-    });
-
+    })
 
   }
-
 }
 
 
