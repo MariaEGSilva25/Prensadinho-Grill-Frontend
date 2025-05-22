@@ -81,3 +81,10 @@ td img {
   width: 16px;
   height: 16px;
 }
+
+.mensagem-vazia {
+  text-align: center;
+  color: gray;
+  font-style: italic;
+  margin-top: 20px;
+}
