@@ -4,13 +4,17 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedService {
-  private unitPrice: number = 0;
+  contador = 0;
+  private unitPrices: number[] = [];
 
-  setUnitPrice(price: number) {
-    this.unitPrice = price;
+  addUnitPrice(price: number) {
+    this.unitPrices.push(price)
   }
 
-  getUnitPrice(): number {
-    return this.unitPrice;
+  getUnitPrices(){
+    return this.unitPrices;
   }
+
+
+
 }

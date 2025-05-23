@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FiadoService } from './../../../services/fiado.service'; // ajuste o caminho conforme necessário
 import { SharedService } from '../../../services/shared.service';
+import { ClienteType } from '../../../types/Cliente';
 
-interface Cliente {
-  id: string;
-  nome: string;
-  notaPendente: string;
-  telefone: string;
-  valor: number;
-  data: string;
-}
 
 @Component({
   selector: 'app-fiado',
@@ -21,35 +14,43 @@ interface Cliente {
   styleUrl: './fiado.component.css'
 })
 export class FiadoComponent implements OnInit {
-  clientes: Cliente[] = [];
+  clientes: ClienteType[] = [];
   semClientes: boolean = true;
-  valor = 0;
+
 
   constructor(private fiadoService: FiadoService,
   private sharedService: SharedService) { }
 
   ngOnInit(): void {
-    this.fiadoService.getAllFiados().subscribe({
-      next: (response) => {
-        console.log('Fiados recebidos:', response);
-        const lista = Array.isArray(response) ? response : [];
+  const prices = this.sharedService.getUnitPrices();
+  let contador = 0;
 
-        this.clientes = lista.map((item: any) => ({
+  this.fiadoService.getAllFiados().subscribe({
+    next: (response) => {
+      console.log('Fiados recebidos:', response);
+      const lista = Array.isArray(response) ? response : [];
+
+      this.clientes = lista.map((item: any) => {
+        const valor = prices[contador] || 0;
+        contador++;
+
+        return {
           id: item.id,
           nome: item.name,
           notaPendente: "nota anexada",
           telefone: item.phone,
-          valor: this.sharedService.getUnitPrice(),
+          valor: valor,
           data: new Date().toLocaleDateString("pt-BR"),
-        }));
+        };
+      });
 
-        this.semClientes = this.clientes.length === 0;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar fiados:', error);
-        this.semClientes = true;
-      }
-    });
+      this.semClientes = this.clientes.length === 0;
+    },
+    error: (error) => {
+      console.error('Erro ao buscar fiados:', error);
+      this.semClientes = true;
+    }
+  });
+}
 
-  }
 }

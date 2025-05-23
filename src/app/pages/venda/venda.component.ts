@@ -118,7 +118,7 @@ export class VendaComponent {
       console.log('tipo selecionado: ', this.tiposSelecionados);
       this.utilsModal.openModalConfirmation(true)
 
-      // this.deletarProdutos();
+      this.deletarProdutos();
 
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
@@ -133,17 +133,17 @@ export class VendaComponent {
   }
 
 
-  // deletarProdutos() {
-  //   this.deleteAll.deleteAllProducts().subscribe({
-  //     next: (response) => {
-  //       console.log('Produtos deletados:', response);
-  //     },
-  //     error: (error) => {
-  //       console.error('Erro ao deletar produtos:', error);
-  //     }
-  //   })
+  deletarProdutos() {
+    this.deleteAll.deleteAllProducts().subscribe({
+      next: (response) => {
+        console.log('Produtos deletados:', response);
+      },
+      error: (error) => {
+        console.error('Erro ao deletar produtos:', error);
+      }
+    })
 
-  // }
+  }
 }
 
 

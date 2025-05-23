@@ -3,4 +3,6 @@ export type ClienteType = {
   nome: string;
   notaPendente: string;
   telefone: string;
+  valor: number
+  data: string
 }

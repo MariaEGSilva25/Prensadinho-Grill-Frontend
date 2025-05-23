@@ -79,7 +79,7 @@ export class CadastroComponent {
 
         const unitPrice = cadastroFiadoData.unitPrice
 
-        this.sharedService.setUnitPrice(unitPrice)
+        this.sharedService.addUnitPrice(unitPrice)
         console.log("Eu sou a velocidade: ", unitPrice)
 
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
