@@ -119,6 +119,19 @@
             >O telefone é obrigatório.</small
           >
         </div>
+
+        <label>Quanto deve</label>
+        <input type="number" formControlName="unitPrice"  />
+        <div
+          *ngIf="
+            cadastroForm.get('unitPrice')?.touched &&
+            cadastroForm.get('unitPrice')?.invalid
+          "
+        >
+          <small *ngIf="cadastroForm.get('unitPrice')?.errors?.['required']"
+            >O Quanto deve é obrigatório.</small
+          >
+        </div>
       </ng-container>
 
       <!-- Botão -->

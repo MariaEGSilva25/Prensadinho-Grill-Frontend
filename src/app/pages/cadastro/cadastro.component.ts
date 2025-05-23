@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FiadoService } from '../../../services/fiado.service';
 import { DeleteAllService } from '../../../services/delete-all.service';
 import { Router } from '@angular/router';
+import { SharedService } from '../../../services/shared.service';
 
 
 
@@ -27,6 +28,7 @@ export class CadastroComponent {
     private cadastroService: CadastroService,
     private fiadoService: FiadoService,
     private deleteAll: DeleteAllService,
+    private sharedService: SharedService,
     private route: Router) {
 
     if (this.utilsModal.formMode === 'completo') {
@@ -43,6 +45,7 @@ export class CadastroComponent {
       this.cadastroForm = new FormGroup({
         name: new FormControl('', Validators.required),
         phone: new FormControl('', Validators.required),
+        unitPrice: new FormControl('', Validators.required),
       });
     }
   }
@@ -68,9 +71,16 @@ export class CadastroComponent {
           }
         });
       } else {
+
+
         const cadastroFiadoData = this.cadastroForm.value;
 
         console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
+
+        const unitPrice = cadastroFiadoData.unitPrice
+
+        this.sharedService.setUnitPrice(unitPrice)
+        console.log("Eu sou a velocidade: ", unitPrice)
 
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
           next: (response) => {

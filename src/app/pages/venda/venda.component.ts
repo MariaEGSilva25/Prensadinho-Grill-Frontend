@@ -27,7 +27,7 @@ export class VendaComponent {
 
   tiposSelecionados: string[] = [];
   valorAtual = '';
-  executarGet : boolean = false;
+  executarGet : boolean = true;
 
   itens = [
     { qtd: 0, nome: '', valor: 0 },
@@ -46,6 +46,8 @@ export class VendaComponent {
   }
 
   ngOnInit() {
+  console.log("valor de this.executarGet", this.executarGet);
+
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
@@ -116,7 +118,7 @@ export class VendaComponent {
       console.log('tipo selecionado: ', this.tiposSelecionados);
       this.utilsModal.openModalConfirmation(true)
 
-      this.deletarProdutos();
+      // this.deletarProdutos();
 
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
@@ -124,23 +126,24 @@ export class VendaComponent {
   }
 
   cadastrarFiado() {
+    console.log("dados da venda: ", this.itens)
+
 
     this.utilsModal.openModal('simples')
-
   }
 
 
-  deletarProdutos() {
-    this.deleteAll.deleteAllProducts().subscribe({
-      next: (response) => {
-        console.log('Produtos deletados:', response);
-      },
-      error: (error) => {
-        console.error('Erro ao deletar produtos:', error);
-      }
-    })
+  // deletarProdutos() {
+  //   this.deleteAll.deleteAllProducts().subscribe({
+  //     next: (response) => {
+  //       console.log('Produtos deletados:', response);
+  //     },
+  //     error: (error) => {
+  //       console.error('Erro ao deletar produtos:', error);
+  //     }
+  //   })
 
-  }
+  // }
 }
 
 

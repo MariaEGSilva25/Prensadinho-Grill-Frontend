@@ -2,6 +2,7 @@ import { EstoqueService } from './../../../services/estoque.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FiadoService } from './../../../services/fiado.service'; // ajuste o caminho conforme necessário
+import { SharedService } from '../../../services/shared.service';
 
 interface Cliente {
   id: string;
@@ -24,26 +25,10 @@ export class FiadoComponent implements OnInit {
   semClientes: boolean = true;
   valor = 0;
 
-  constructor(private fiadoService: FiadoService, private estoqueService: EstoqueService) { }
+  constructor(private fiadoService: FiadoService,
+  private sharedService: SharedService) { }
 
   ngOnInit(): void {
-    this.estoqueService.getAllProducts().subscribe({
-      next: (response) => {
-        // agora que eu sei que o array é valido
-        const arrayValid = Array.isArray(response) ? response : []
-        for (const p of arrayValid) {
-          this.valor = p.unitPrice;
-        }
-
-        console.log("Preço produto: ", this.valor)
-      },
-      error: (error) => {
-        console.log("não deu certo deu erro: ", error)
-      }
-    })
-
-
-
     this.fiadoService.getAllFiados().subscribe({
       next: (response) => {
         console.log('Fiados recebidos:', response);
@@ -54,7 +39,7 @@ export class FiadoComponent implements OnInit {
           nome: item.name,
           notaPendente: "nota anexada",
           telefone: item.phone,
-          valor: this.valor,
+          valor: this.sharedService.getUnitPrice(),
           data: new Date().toLocaleDateString("pt-BR"),
         }));
 
