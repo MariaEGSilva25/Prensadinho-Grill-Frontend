@@ -7,8 +7,8 @@ import { UtilsModalService } from '../../../services/utils-modal.service';
 import { CadastroComponent } from '../cadastro/cadastro.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { DeleteAllService } from '../../../services/delete-all.service';
-import { CadastroService } from '../../../services/cadastro.service';
-import { Product } from '../../../types/Product';
+import { OrdersService } from '../../../services/orders.service';
+
 
 @Component({
   selector: 'app-venda',
@@ -27,50 +27,59 @@ export class VendaComponent {
 
   tiposSelecionados: string[] = [];
   valorAtual = '';
-  executarGet : boolean = true;
 
   itens = [
-    { qtd: 0, nome: '', valor: 0 },
-    { qtd: 0, nome: '', valor: 0 },
+    { id: 0, qtd: 0, nome: '', valor: 0 },
   ];
+  // usar esse objeto para montar a requisição post orders
+  cadastroFiado =
+    {
+      items: [
+        {
+          productCode: 1,
+          quantity: 1
+        },
+      ],
+      type: 'CREDIT',
+      spun: {
+        name: "Marcos",
+        phone: "11111111111"
+      },
+    }
 
-  cadastroFiado: Product[] = []
+
 
   desconto = 0;
 
   constructor(public utilsModal: UtilsModalService,
     private estoqueService: EstoqueService,
     private deleteAll: DeleteAllService,
-    private cadastroService: CadastroService) {
+    private orderService: OrdersService,
+  ) {
 
   }
 
   ngOnInit() {
-  console.log("valor de this.executarGet", this.executarGet);
 
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
 
-
+    // executa get de produtos
     this.estoqueService.getAllProducts().subscribe({
-
       next: (response) => {
-        if(!this.executarGet){
-          console.log("Bloqueado pelo controle")
-          return
-        }
-
         const isArrayResponse = Array.isArray(response) ? response : []
 
-        console.log('Produtos recebidos:', response);
-        console.log('Valor do isArrayResponse:', isArrayResponse);
-        this.cadastroFiado = (isArrayResponse)
+        // faz map para criar um novo objeto com os dados da requisição
         this.itens = (isArrayResponse).map((item: any) => ({
+          id: item.productCode,
           qtd: item.quantity,
           nome: item.name,
           valor: item.unitPrice
         }))
+
+        // this.cadastrarFiado = this.itens[0]
+        console.log(this.itens);
       },
       error: (error) => {
         console.error('Erro ao buscar produtos:', error);
@@ -81,8 +90,6 @@ export class VendaComponent {
   get itensFiltrados() {
     return this.itens.filter(i => i.qtd !== 0 && i.nome !== '');
   }
-
-
 
   get subtotal() {
     return this.itens.reduce((soma, item) => soma + item.valor * item.qtd, 0);
@@ -116,20 +123,43 @@ export class VendaComponent {
 
     if (condicao1 && condicao2) {
       console.log('tipo selecionado: ', this.tiposSelecionados);
-      this.utilsModal.openModalConfirmation(true)
-
+      this.utilsModal.openModalConfirmation(true);
       this.deletarProdutos();
-
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }
   }
 
   cadastrarFiado() {
-    console.log("dados da venda: ", this.itens)
+    // this.cadastrarFiado = this.itens.map((item: any) => ({
+    //   id: item.productCode,
+    //   qtd: item.quantity,
+    //   nome: item.name,
+    //   valor: item.unitPrice
+    // }))
 
+    this.cadastroFiado.items = this.itens.map((item: any) => ({
+      productCode: item.id,
+      quantity: item.qtd,
+    }))
 
+    // montar valores pra req post
     this.utilsModal.openModal('simples')
+
+
+
+
+    console.log(this.cadastroFiado.items)
+
+    this.orderService.criarFiado(this.cadastroFiado).subscribe({
+      next: (response) => {
+        console.log("Urru deu certo! ", response);
+      },
+      error: (error) => {
+        console.log("droga deu errado", error);
+      }
+    })
+
   }
 
 

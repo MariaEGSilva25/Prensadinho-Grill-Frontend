@@ -45,7 +45,6 @@ export class CadastroComponent {
       this.cadastroForm = new FormGroup({
         name: new FormControl('', Validators.required),
         phone: new FormControl('', Validators.required),
-        unitPrice: new FormControl('', Validators.required),
       });
     }
   }
@@ -86,26 +85,28 @@ export class CadastroComponent {
           next: (response) => {
             console.log('Fiado criado com sucesso:', response);
 
-            this.deleteAll.deleteAllProducts().subscribe({
-              next: (response) => {
-                console.log('Produtos deletados:', response);
-
-                // ✅ Exibe o modal e depois de 2 segundos navega
-                this.exibirModalSucesso();
+            this.exibirModalSucesso();
                 setTimeout(() => {
                   this.route.navigate(['/home']);
                 }, 2000);
-              },
-              error: (error) => {
-                console.error('Erro ao deletar produtos:', error);
 
-                // Mesmo se der erro, você pode exibir o modal e depois navegar
-                this.exibirModalSucesso();
-                setTimeout(() => {
-                  this.route.navigate(['/home']);
-                }, 2000);
-              }
-            });
+            // this.deleteAll.deleteAllProducts().subscribe({
+            //   next: (response) => {
+            //     console.log('Produtos deletados:', response);
+
+            //     // ✅ Exibe o modal e depois de 2 segundos navega
+
+            //   },
+            //   error: (error) => {
+            //     console.error('Erro ao deletar produtos:', error);
+
+            //     // Mesmo se der erro, você pode exibir o modal e depois navegar
+            //     this.exibirModalSucesso();
+            //     setTimeout(() => {
+            //       this.route.navigate(['/home']);
+            //     }, 2000);
+            //   }
+            // });
 
           },
           error: (error) => {
