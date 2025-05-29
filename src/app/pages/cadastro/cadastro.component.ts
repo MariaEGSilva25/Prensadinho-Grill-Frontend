@@ -9,7 +9,7 @@ import { FiadoService } from '../../../services/fiado.service';
 import { DeleteAllService } from '../../../services/delete-all.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../services/shared.service';
-
+import { OrdersService } from '../../../services/orders.service';
 
 
 @Component({
@@ -24,11 +24,13 @@ export class CadastroComponent {
   showSuccessModal: boolean = false;
   formMode: string = this.utilsModal.formMode;
 
+
   constructor(private utilsModal: UtilsModalService,
     private cadastroService: CadastroService,
     private fiadoService: FiadoService,
     private deleteAll: DeleteAllService,
     private sharedService: SharedService,
+    private orderService: OrdersService,
     private route: Router) {
 
     if (this.utilsModal.formMode === 'completo') {
@@ -76,37 +78,30 @@ export class CadastroComponent {
 
         console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
 
-        const unitPrice = cadastroFiadoData.unitPrice
+        // const unitPrice = cadastroFiadoData.unitPrice
+        // this.sharedService.addUnitPrice(unitPrice)
 
-        this.sharedService.addUnitPrice(unitPrice)
-        console.log("Eu sou a velocidade: ", unitPrice)
 
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
           next: (response) => {
             console.log('Fiado criado com sucesso:', response);
 
-            this.exibirModalSucesso();
-                setTimeout(() => {
-                  this.route.navigate(['/home']);
-                }, 2000);
+            this.sharedService.currentOrder$.subscribe(orders => {
+              orders.spun = cadastroFiadoData
+              console.log("valor orders", orders);
 
-            // this.deleteAll.deleteAllProducts().subscribe({
-            //   next: (response) => {
-            //     console.log('Produtos deletados:', response);
+              // post orders
+              this.orderService.criarFiado(orders).subscribe({
+                next: (response) => {
+                  console.log("Urru deu certo! ", response);
+                },
+                error: (error) => {
+                  throw error
+                }
+              });
+            });
 
-            //     // ✅ Exibe o modal e depois de 2 segundos navega
-
-            //   },
-            //   error: (error) => {
-            //     console.error('Erro ao deletar produtos:', error);
-
-            //     // Mesmo se der erro, você pode exibir o modal e depois navegar
-            //     this.exibirModalSucesso();
-            //     setTimeout(() => {
-            //       this.route.navigate(['/home']);
-            //     }, 2000);
-            //   }
-            // });
+            this.excluir()
 
           },
           error: (error) => {
@@ -128,4 +123,31 @@ export class CadastroComponent {
       this.showSuccessModal = false;
     }, 2000);
   }
+
+
+  excluir() {
+    this.deleteAll.deleteAllProducts().subscribe({
+      next: (response) => {
+        console.log('Produtos deletados:', response);
+
+        // ✅ Exibe o modal e depois de 2 segundos navega
+        this.exibirModalSucesso();
+        setTimeout(() => {
+          this.route.navigate(['/home']);
+        }, 2000);
+
+      },
+      error: (error) => {
+        console.error('Erro ao deletar produtos:', error);
+
+        // Mesmo se der erro, você pode exibir o modal e depois navegar
+        this.exibirModalSucesso();
+        setTimeout(() => {
+          this.route.navigate(['/home']);
+        }, 2000);
+      }
+    });
+
+  }
 }
+

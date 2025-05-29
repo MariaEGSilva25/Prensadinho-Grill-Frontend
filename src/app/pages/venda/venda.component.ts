@@ -8,6 +8,7 @@ import { CadastroComponent } from '../cadastro/cadastro.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { DeleteAllService } from '../../../services/delete-all.service';
 import { OrdersService } from '../../../services/orders.service';
+import { SharedService } from '../../../services/shared.service';
 
 
 @Component({
@@ -54,7 +55,8 @@ export class VendaComponent {
   constructor(public utilsModal: UtilsModalService,
     private estoqueService: EstoqueService,
     private deleteAll: DeleteAllService,
-    private orderService: OrdersService,
+
+    private sharedService: SharedService,
   ) {
 
   }
@@ -146,20 +148,8 @@ export class VendaComponent {
     // montar valores pra req post
     this.utilsModal.openModal('simples')
 
-
-
-
-    console.log(this.cadastroFiado.items)
-
-    this.orderService.criarFiado(this.cadastroFiado).subscribe({
-      next: (response) => {
-        console.log("Urru deu certo! ", response);
-      },
-      error: (error) => {
-        console.log("droga deu errado", error);
-      }
-    })
-
+    this.sharedService.setOrders(this.cadastroFiado)
+    console.log("enviando array para getOrders: ", this.cadastroFiado)
   }
 
 
