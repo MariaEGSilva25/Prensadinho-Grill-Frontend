@@ -71,26 +71,26 @@ export class VendaComponent {
     this.estoqueService.getAllProducts().subscribe({
       next: (response) => {
         const isArrayResponse = Array.isArray(response) ? response : []
+        //sempre add o obj na primeira posição do meu array
 
-        // faz map para criar um novo objeto com os dados da requisição
+        isArrayResponse.forEach((item: any) => {
+          let newItem;
 
-        // validação pra saber se quantidade é igual a zero
-
-        this.itens = isArrayResponse.map((item: any) => {
           if (item.quantity === 0) {
             console.log("sou igual a zero");
-            return { id: 0, qtd: 0, nome: '', valor: 0 }
+            newItem = { id: 0, qtd: 0, nome: '', valor: 0 }
+          } else {
+            newItem = {
+              id: item.productCode,
+              qtd: item.quantity,
+              nome: item.name,
+              valor: item.unitPrice
+            }
           }
-          //preciso zerar o valor de itens para a primeira posição do array sempre
-          return {
-            id: item.productCode,
-            qtd: item.quantity,
-            nome: item.name,
-            valor: item.unitPrice
-          }
-        })
+          this.itens.unshift(newItem);
+          this.itens.pop()
+        });
 
-        // this.cadastrarFiado = this.itens[0]
         console.log(this.itens);
       },
       error: (error) => {

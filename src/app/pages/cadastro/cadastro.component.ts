@@ -78,10 +78,6 @@ export class CadastroComponent {
 
         console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
 
-        // const unitPrice = cadastroFiadoData.unitPrice
-        // this.sharedService.addUnitPrice(unitPrice)
-
-
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
           next: (response) => {
             console.log('Fiado criado com sucesso:', response);
@@ -95,6 +91,7 @@ export class CadastroComponent {
                 next: (response) => {
                   console.log("Urru deu certo! ", response);
                   this.exibirModalSucesso()
+                  this.route.navigate(['/home'])
                 },
                 error: (error) => {
                   throw error
