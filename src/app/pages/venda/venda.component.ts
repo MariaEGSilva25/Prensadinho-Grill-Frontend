@@ -136,21 +136,12 @@ export class VendaComponent {
     if (condicao1 && condicao2) {
       console.log('tipo selecionado: ', this.tiposSelecionados);
       this.utilsModal.openModalConfirmation(true);
-      this.deletarProdutos();
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }
   }
 
   cadastrarFiado() {
-    // this.cadastrarFiado = this.itens.map((item: any) => ({
-    //   id: item.productCode,
-    //   qtd: item.quantity,
-    //   nome: item.name,
-    //   valor: item.unitPrice
-    // }))
-
-    // fazer a mesma logica de compar aqui tambem
     this.cadastroFiado.items = this.itens.map((item: any) => ({
       productCode: item.id,
       quantity: item.qtd,
