@@ -88,12 +88,13 @@ export class CadastroComponent {
 
             this.sharedService.currentOrder$.subscribe(orders => {
               orders.spun = cadastroFiadoData
-              console.log("valor orders", orders);
+              console.log("valor orders", orders.items[0].quantity);
 
               // post orders
               this.orderService.criarFiado(orders).subscribe({
                 next: (response) => {
                   console.log("Urru deu certo! ", response);
+                  this.exibirModalSucesso()
                 },
                 error: (error) => {
                   throw error
@@ -101,13 +102,15 @@ export class CadastroComponent {
               });
             });
 
-            this.excluir()
+
 
           },
           error: (error) => {
             console.error('Erro ao criar fiado:', error);
           }
         });
+
+
       }
     } else {
       console.log('Formulário inválido');
@@ -125,29 +128,5 @@ export class CadastroComponent {
   }
 
 
-  excluir() {
-    this.deleteAll.deleteAllProducts().subscribe({
-      next: (response) => {
-        console.log('Produtos deletados:', response);
-
-        // ✅ Exibe o modal e depois de 2 segundos navega
-        this.exibirModalSucesso();
-        setTimeout(() => {
-          this.route.navigate(['/home']);
-        }, 2000);
-
-      },
-      error: (error) => {
-        console.error('Erro ao deletar produtos:', error);
-
-        // Mesmo se der erro, você pode exibir o modal e depois navegar
-        this.exibirModalSucesso();
-        setTimeout(() => {
-          this.route.navigate(['/home']);
-        }, 2000);
-      }
-    });
-
-  }
 }
 

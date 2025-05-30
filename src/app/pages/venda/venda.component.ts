@@ -73,12 +73,22 @@ export class VendaComponent {
         const isArrayResponse = Array.isArray(response) ? response : []
 
         // faz map para criar um novo objeto com os dados da requisição
-        this.itens = (isArrayResponse).map((item: any) => ({
-          id: item.productCode,
-          qtd: item.quantity,
-          nome: item.name,
-          valor: item.unitPrice
-        }))
+
+        // validação pra saber se quantidade é igual a zero
+
+        this.itens = isArrayResponse.map((item: any) => {
+          if (item.quantity === 0) {
+            console.log("sou igual a zero");
+            return { id: 0, qtd: 0, nome: '', valor: 0 }
+          }
+          //preciso zerar o valor de itens para a primeira posição do array sempre
+          return {
+            id: item.productCode,
+            qtd: item.quantity,
+            nome: item.name,
+            valor: item.unitPrice
+          }
+        })
 
         // this.cadastrarFiado = this.itens[0]
         console.log(this.itens);
@@ -140,16 +150,17 @@ export class VendaComponent {
     //   valor: item.unitPrice
     // }))
 
+    // fazer a mesma logica de compar aqui tambem
     this.cadastroFiado.items = this.itens.map((item: any) => ({
       productCode: item.id,
       quantity: item.qtd,
     }))
 
-    // montar valores pra req post
-    this.utilsModal.openModal('simples')
 
+    // montar valores pra req post
     this.sharedService.setOrders(this.cadastroFiado)
     console.log("enviando array para getOrders: ", this.cadastroFiado)
+    this.utilsModal.openModal('simples')
   }
 
 
