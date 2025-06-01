@@ -91,16 +91,13 @@ export class CadastroComponent {
                 next: (response) => {
                   console.log("Urru deu certo! ", response);
                   this.exibirModalSucesso()
-                  this.route.navigate(['/home'])
+
                 },
                 error: (error) => {
                   throw error
                 }
               });
             });
-
-
-
           },
           error: (error) => {
             console.error('Erro ao criar fiado:', error);
@@ -121,6 +118,7 @@ export class CadastroComponent {
     setTimeout(() => {
       this.close();
       this.showSuccessModal = false;
+      this.route.navigate(["/home"]);
     }, 2000);
   }
 
