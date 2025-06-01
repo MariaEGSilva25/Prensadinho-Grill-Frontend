@@ -13,4 +13,8 @@ export class OrdersService {
   criarFiado(dataOrder: any): Observable<any>{
     return this.http.post(this.url, dataOrder);
   }
+
+  getOrders(): Observable<any>{
+    return this.http.get(this.url)
+  }
 }

@@ -1,9 +1,8 @@
-import { EstoqueService } from './../../../services/estoque.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FiadoService } from './../../../services/fiado.service'; // ajuste o caminho conforme necessário
-import { SharedService } from '../../../services/shared.service';
 import { ClienteType } from '../../../types/Cliente';
+import { OrdersService } from '../../../services/orders.service';
 
 
 @Component({
@@ -16,41 +15,49 @@ import { ClienteType } from '../../../types/Cliente';
 export class FiadoComponent implements OnInit {
   clientes: ClienteType[] = [];
   semClientes: boolean = true;
+  quantity: number = 0
 
-
-  constructor(private fiadoService: FiadoService,
-  private sharedService: SharedService) { }
+  constructor(private fiadoService: FiadoService, private ordersService: OrdersService) { }
 
   ngOnInit(): void {
-  const prices = this.sharedService.getUnitPrices();
-  let contador = 0;
 
-  this.fiadoService.getAllFiados().subscribe({
-    next: (response) => {
-      console.log('Fiados recebidos:', response);
-      const lista = Array.isArray(response) ? response : [];
+    this.ordersService.getOrders().subscribe({
+      next: (response) => {
+        response.forEach((pedido: any) => {
+          pedido.items.forEach((item: any) => {
+            this.quantity = item.quantity
+          });
+        });
+      },
+      error(error) {
+        throw error
+      }
+    });
 
-      this.clientes = lista.map((item: any) => {
-        const valor = prices[contador] || 0;
-        contador++;
 
-        return {
-          id: item.id,
-          nome: item.name,
-          notaPendente: "nota anexada",
-          telefone: item.phone,
-          valor: valor,
-          data: new Date().toLocaleDateString("pt-BR"),
-        };
-      });
+    this.fiadoService.getAllFiados().subscribe({
+      next: (response) => {
+        console.log('Fiados recebidos:', response);
+        const lista = Array.isArray(response) ? response : [];
 
-      this.semClientes = this.clientes.length === 0;
-    },
-    error: (error) => {
-      console.error('Erro ao buscar fiados:', error);
-      this.semClientes = true;
-    }
-  });
-}
+        this.clientes = lista.map((item: any) => {
+          return {
+            id: item.id,
+            nome: item.name,
+            notaPendente: "nota anexada",
+            telefone: item.phone,
+            valor: this.quantity,
+            data: new Date().toLocaleDateString("pt-BR"),
+          };
+        });
+
+        this.semClientes = this.clientes.length === 0;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar fiados:', error);
+        this.semClientes = true;
+      }
+    });
+  }
 
 }
