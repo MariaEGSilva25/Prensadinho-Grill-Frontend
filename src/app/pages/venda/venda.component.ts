@@ -7,8 +7,8 @@ import { UtilsModalService } from '../../../services/utils-modal.service';
 import { CadastroComponent } from '../cadastro/cadastro.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { DeleteAllService } from '../../../services/delete-all.service';
-import { OrdersService } from '../../../services/orders.service';
 import { SharedService } from '../../../services/shared.service';
+import { CadastroService } from '../../../services/cadastro.service';
 
 
 @Component({
@@ -47,22 +47,24 @@ export class VendaComponent {
         phone: "11111111111"
       },
     }
-
-
-
+  updateProduto = [{
+        productCode: 0,
+        name: "",
+        unitPrice: 0,
+				quantity: 0,
+        minimumStock: 0,
+        maximumStock: 0
+}]
   desconto = 0;
 
   constructor(public utilsModal: UtilsModalService,
     private estoqueService: EstoqueService,
     private deleteAll: DeleteAllService,
-
     private sharedService: SharedService,
-  ) {
-
-  }
+    private cadastroComponent: CadastroService
+  ) { }
 
   ngOnInit() {
-
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
@@ -72,7 +74,7 @@ export class VendaComponent {
       next: (response) => {
         const isArrayResponse = Array.isArray(response) ? response : []
         //sempre add o obj na primeira posição do meu array
-
+        console.log("valor do array: ", isArrayResponse);
         isArrayResponse.forEach((item: any) => {
           let newItem;
 
@@ -90,7 +92,6 @@ export class VendaComponent {
           this.itens.unshift(newItem);
           this.itens.pop()
         });
-
         console.log(this.itens);
       },
       error: (error) => {
@@ -134,8 +135,36 @@ export class VendaComponent {
     const condicao2 = this.tiposSelecionados.length != 0;
 
     if (condicao1 && condicao2) {
+      // precisa fazer um update pra jogar o valor de quantidade 0
       console.log('tipo selecionado: ', this.tiposSelecionados);
+      this.itens[0].qtd = 0;
+      //precisa enviar o obj com os nomes corretos
+
+      this.updateProduto = this.itens.map((item: any)=> ({
+        productCode: item.id,
+        name: item.nome,
+        unitPrice: item.valor ,
+				quantity: item.qtd,
+        minimumStock: 1,
+        maximumStock: 1
+      }));
+
+      this.itens.pop()
+
+
+      this.cadastroComponent.atualizarProduto(this.updateProduto[0], this.updateProduto[0].productCode).subscribe({
+        next:(response) =>{
+          console.log("Produto atualizado!")
+          console.log(response)
+        },
+        error:(error) =>{
+          throw error
+        }
+      })
+
       this.utilsModal.openModalConfirmation(true);
+      // this.deletarProdutos();
+      console.log("ultimo valor de itens: " ,this.itens[0])
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }

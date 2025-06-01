@@ -13,4 +13,8 @@ export class CadastroService {
     criarProduto(dadosProd: any): Observable<any> {
     return this.http.post(this.url, dadosProd);
   }
+
+  atualizarProduto(dadosProdUpdate: any, id: number) : Observable<any>{
+    return this.http.put(`${this.url}/${id}`, dadosProdUpdate)
+  }
 }
