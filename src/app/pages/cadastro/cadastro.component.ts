@@ -73,31 +73,38 @@ export class CadastroComponent {
         });
       } else {
 
-
         const cadastroFiadoData = this.cadastroForm.value;
 
         console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
 
         this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
           next: (response) => {
+
             console.log('Fiado criado com sucesso:', response);
 
-            this.sharedService.currentOrder$.subscribe(orders => {
-              orders.spun = cadastroFiadoData
-              console.log("valor orders", orders.items[0].quantity);
+            // Verifica se name e phone estão preenchidos
+            const isNameValid = cadastroFiadoData.name && cadastroFiadoData.name.trim() !== '';
+            const isPhoneValid = cadastroFiadoData.phone && cadastroFiadoData.phone.toString().length >= 10;
 
-              // post orders
-              this.orderService.criarFiado(orders).subscribe({
-                next: (response) => {
-                  console.log("Urru deu certo! ", response);
-                  this.exibirModalSucesso()
+            if (isNameValid && isPhoneValid) {
+              this.sharedService.currentOrder$.subscribe(orders => {
+                orders.spun = cadastroFiadoData
+                console.log()
+                console.log("valor orders", orders.items[0].quantity);
 
-                },
-                error: (error) => {
-                  throw error
-                }
+                // post orders
+                this.orderService.criarFiado(orders).subscribe({
+                  next: (response) => {
+                    console.log("Urru deu certo! ", response);
+                    this.exibirModalSucesso()
+
+                  },
+                  error: (error) => {
+                    throw error
+                  }
+                });
               });
-            });
+            }
           },
           error: (error) => {
             console.error('Erro ao criar fiado:', error);
