@@ -6,10 +6,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SucessComponent } from '../components/sucess/sucess.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FiadoService } from '../../../services/fiado.service';
-import { DeleteAllService } from '../../../services/delete-all.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../services/shared.service';
 import { OrdersService } from '../../../services/orders.service';
+import { EMPTY, switchMap, take } from 'rxjs';
 
 
 @Component({
@@ -28,7 +28,6 @@ export class CadastroComponent {
   constructor(private utilsModal: UtilsModalService,
     private cadastroService: CadastroService,
     private fiadoService: FiadoService,
-    private deleteAll: DeleteAllService,
     private sharedService: SharedService,
     private orderService: OrdersService,
     private route: Router) {
@@ -57,69 +56,75 @@ export class CadastroComponent {
   }
 
 
-  onSubmit() {
-    if (this.cadastroForm.valid) {
-      const cadastroData = this.cadastroForm.value;
+onSubmit() {
+  if (this.cadastroForm.valid) {
+    const cadastroData = this.cadastroForm.value;
 
-      if (this.formMode === 'completo') {
-        this.cadastroService.criarProduto(cadastroData).subscribe({
-          next: (response) => {
-            console.log('Produto criado com sucesso:', response);
-            this.exibirModalSucesso();
-          },
-          error: (error) => {
-            console.error('Erro ao criar produto:', error);
-          }
-        });
-      } else {
-
-        const cadastroFiadoData = this.cadastroForm.value;
-
-        console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
-
-        this.fiadoService.criarClienteFiado(cadastroFiadoData).subscribe({
-          next: (response) => {
-
-            console.log('Fiado criado com sucesso:', response);
-
-            // Verifica se name e phone estão preenchidos
-            const isNameValid = cadastroFiadoData.name && cadastroFiadoData.name.trim() !== '';
-            const isPhoneValid = cadastroFiadoData.phone && cadastroFiadoData.phone.toString().length >= 10;
-
-            if (isNameValid && isPhoneValid) {
-              this.sharedService.currentOrder$.subscribe(orders => {
-                orders.spun = cadastroFiadoData
-                console.log()
-                console.log("valor orders", orders.items[0].quantity);
-
-                // post orders
-                this.orderService.criarFiado(orders).subscribe({
-                  next: (response) => {
-                    console.log("Urru deu certo! ", response);
-                    this.exibirModalSucesso()
-
-                  },
-                  error: (error) => {
-                    throw error
-                  }
-                });
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Erro ao criar fiado:', error);
-          }
-        });
-
-
-      }
+    if (this.formMode === 'completo') {
+      this.cadastroService.criarProduto(cadastroData).subscribe({
+        next: (response) => {
+          console.log('Produto criado com sucesso:', response);
+          this.exibirModalSucesso();
+        },
+        error: (error) => {
+          console.error('Erro ao criar produto:', error);
+        }
+      });
     } else {
-      console.log('Formulário inválido');
-      this.cadastroForm.markAllAsTouched();
-    }
-  }
+      const cadastroFiadoData = this.cadastroForm.value;
 
-  // ✅ Aqui está o método que você perguntou
+      console.log('Cadastro de fiado funcionando, olha o valor dele ai: ', cadastroFiadoData);
+
+      this.fiadoService.criarClienteFiado(cadastroFiadoData).pipe(
+        switchMap((response) => {
+          console.log('Fiado criado com sucesso:', response);
+
+          // Validações
+          const isNameValid = cadastroFiadoData.name.trim() !== '';
+          const isPhoneValid = cadastroFiadoData.phone.toString().length >= 10;
+
+          if (isNameValid && isPhoneValid) {
+            return this.sharedService.currentOrder$.pipe(
+              take(1),
+              switchMap(orders => {
+                const newOrder = { ...orders, spun: cadastroFiadoData };
+                console.log("valor orders", newOrder.items[0].quantity);
+
+                if (cadastroData) {
+                  console.log("rodei aqui!");
+                  this.exibirModalSucesso()
+                  return this.orderService.criarFiado(newOrder);
+                } else {
+                  console.log("Orders inválido, não enviando.");
+                  return EMPTY;  // Importar do rxjs
+                }
+              })
+            );
+          } else {
+            console.log("Dados inválidos para fiado.");
+            return EMPTY;
+          }
+        })
+      ).subscribe({
+        next: (response) => {
+          if (response) {
+            console.log("Urru deu certo! ", response);
+            this.exibirModalSucesso();
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao criar fiado ou ordem:', error);
+        }
+      });
+    }
+  } else {
+    console.log('Formulário inválido');
+    this.cadastroForm.markAllAsTouched();
+  }
+}
+
+
+
   private exibirModalSucesso() {
     this.showSuccessModal = true;
     setTimeout(() => {
