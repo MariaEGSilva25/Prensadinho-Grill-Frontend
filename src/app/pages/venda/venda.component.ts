@@ -9,6 +9,8 @@ import { ConfirmationComponent } from '../components/confirmation/confirmation.c
 import { DeleteAllService } from '../../../services/delete-all.service';
 import { SharedService } from '../../../services/shared.service';
 import { CadastroService } from '../../../services/cadastro.service';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -48,13 +50,13 @@ export class VendaComponent {
       },
     }
   updateProduto = [{
-        productCode: 0,
-        name: "",
-        unitPrice: 0,
-				quantity: 0,
-        minimumStock: 0,
-        maximumStock: 0
-}]
+    productCode: 0,
+    name: "",
+    unitPrice: 0,
+    quantity: 0,
+    minimumStock: 0,
+    maximumStock: 0
+  }]
   desconto = 0;
   pago = false;
 
@@ -62,10 +64,13 @@ export class VendaComponent {
     private estoqueService: EstoqueService,
     private deleteAll: DeleteAllService,
     private sharedService: SharedService,
-    private cadastroComponent: CadastroService
+    private cadastroComponent: CadastroService,
+    private route: Router
   ) { }
 
   ngOnInit() {
+
+
     //corrigir erro do modal de confirmação iniciar como true
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
@@ -100,10 +105,19 @@ export class VendaComponent {
         // o valor de itens já foi atribuido ou negativo ou valor do produto
         console.log(this.itens);
 
-        if(this.itens[0].id >=0 && this.itens[0].nome){
+        if (this.itens[0].id >= 0 && this.itens[0].nome) {
           this.pago = false
-          alert("voce tem um debito pendente, marque como fiado ou receba esse produto!")
-        }else{
+          alert("voce tem um debito pendente, marque como fiado ou receba esse produto!");
+
+          //codigo para travar o inadimplente canalha
+          history.pushState(null, '', location.href)
+          window.addEventListener('popstate', () => {
+            history.pushState(null, '', location.href);
+            this.route.navigate(['/venda'])
+            alert('Pague o que deve!');
+          });
+
+        } else {
           this.pago = true
         }
       },
@@ -153,11 +167,11 @@ export class VendaComponent {
       this.itens[0].qtd = 0;
       //precisa enviar o obj com os nomes corretos
 
-      this.updateProduto = this.itens.map((item: any)=> ({
+      this.updateProduto = this.itens.map((item: any) => ({
         productCode: item.id,
         name: item.nome,
-        unitPrice: item.valor ,
-				quantity: item.qtd,
+        unitPrice: item.valor,
+        quantity: item.qtd,
         minimumStock: 1,
         maximumStock: 1
       }));
@@ -166,18 +180,18 @@ export class VendaComponent {
 
 
       this.cadastroComponent.atualizarProduto(this.updateProduto[0], this.updateProduto[0].productCode).subscribe({
-        next:(response) =>{
+        next: (response) => {
           console.log("Produto atualizado!")
           console.log(response)
         },
-        error:(error) =>{
+        error: (error) => {
           throw error
         }
       })
 
       this.utilsModal.openModalConfirmation(true);
       // this.deletarProdutos();
-      console.log("ultimo valor de itens: " ,this.itens[0])
+      console.log("ultimo valor de itens: ", this.itens[0])
     } else {
       alert('Você tem um debito pendente, pague o que deve!');
     }
@@ -196,14 +210,14 @@ export class VendaComponent {
     this.utilsModal.openModal('simples')
   }
 
-  cancelar(){
-    if(this.itens[0].id >=0 && this.itens[0].nome){
-          this.pago = false
-          alert("voce tem um debito pendente, marque como fiado ou receba esse produto!")
-        }else{
-          this.pago = true
-          this.utilsModal.cancelModalConfirmation(true)
-        }
+  cancelar() {
+    if (this.itens[0].id >= 0 && this.itens[0].nome) {
+      this.pago = false
+      alert("voce tem um debito pendente, marque como fiado ou receba esse produto!")
+    } else {
+      this.pago = true
+      this.utilsModal.cancelModalConfirmation(true)
+    }
   }
 
 
