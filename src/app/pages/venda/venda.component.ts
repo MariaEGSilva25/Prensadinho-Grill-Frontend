@@ -30,7 +30,7 @@ export class VendaComponent {
   valorAtual = '';
 
   itens = [
-    { id: 0, qtd: 0, nome: '', valor: 0 },
+    { id: -1, qtd: 0, nome: '', valor: 0 },
   ];
   // usar esse objeto para montar a requisição post orders
   cadastroFiado =
@@ -56,6 +56,7 @@ export class VendaComponent {
         maximumStock: 0
 }]
   desconto = 0;
+  pago = false;
 
   constructor(public utilsModal: UtilsModalService,
     private estoqueService: EstoqueService,
@@ -69,6 +70,9 @@ export class VendaComponent {
     this.utilsModal.confirmationModal = false;
     console.log("Valor do modal de confirmação: ", this.utilsModal.confirmationModal);
 
+    // verificando se tal valo é igual a zero
+    console.log("Valor de itens: ", this.itens[0]);
+
     // executa get de produtos
     this.estoqueService.getAllProducts().subscribe({
       next: (response) => {
@@ -80,7 +84,7 @@ export class VendaComponent {
 
           if (item.quantity === 0) {
             console.log("sou igual a zero");
-            newItem = { id: 0, qtd: 0, nome: '', valor: 0 }
+            newItem = { id: -1, qtd: 0, nome: '', valor: 0 }
           } else {
             newItem = {
               id: item.productCode,
@@ -92,7 +96,16 @@ export class VendaComponent {
           this.itens.unshift(newItem);
           this.itens.pop()
         });
+
+        // o valor de itens já foi atribuido ou negativo ou valor do produto
         console.log(this.itens);
+
+        if(this.itens[0].id >=0 && this.itens[0].nome){
+          this.pago = false
+          alert("voce tem um debito pendente, marque como fiado ou receba esse produto!")
+        }else{
+          this.pago = true
+        }
       },
       error: (error) => {
         console.error('Erro ao buscar produtos:', error);
@@ -181,6 +194,16 @@ export class VendaComponent {
     this.sharedService.setOrders(this.cadastroFiado)
     console.log("enviando array para getOrders: ", this.cadastroFiado)
     this.utilsModal.openModal('simples')
+  }
+
+  cancelar(){
+    if(this.itens[0].id >=0 && this.itens[0].nome){
+          this.pago = false
+          alert("voce tem um debito pendente, marque como fiado ou receba esse produto!")
+        }else{
+          this.pago = true
+          this.utilsModal.cancelModalConfirmation(true)
+        }
   }
 
 

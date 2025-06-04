@@ -14,14 +14,12 @@ import { UtilsModalService } from '../../../services/utils-modal.service';
 })
 export class HomeComponent {
 
-
   rotinasIcon = [
     { nome: 'cadastro', icon: '/assets/Cadastro.png' },
     { nome: 'venda', icon: '/assets/Venda.png' },
     { nome: 'estoque', icon: '/assets/Estoque.png' },
     { nome: 'fiado', icon: '/assets/Fiado.png' },
   ];
-
 
   constructor(private route: Router, public utilsModal: UtilsModalService) {}
 
@@ -33,6 +31,5 @@ export class HomeComponent {
 
     this.route.navigate([`/${rota}`]);
   }
-
 
 }

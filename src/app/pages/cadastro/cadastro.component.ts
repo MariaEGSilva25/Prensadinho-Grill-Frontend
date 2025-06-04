@@ -64,7 +64,7 @@ onSubmit() {
       this.cadastroService.criarProduto(cadastroData).subscribe({
         next: (response) => {
           console.log('Produto criado com sucesso:', response);
-          this.exibirModalSucesso();
+          this.exibirModalSucessoCadastro();
         },
         error: (error) => {
           console.error('Erro ao criar produto:', error);
@@ -123,6 +123,15 @@ onSubmit() {
   }
 }
 
+
+  private exibirModalSucessoCadastro() {
+    this.showSuccessModal = true;
+    setTimeout(() => {
+      this.close();
+      this.showSuccessModal = false;
+      this.route.navigate(["/venda"]);
+    }, 2000);
+  }
 
 
   private exibirModalSucesso() {
