@@ -31,13 +31,14 @@ export class FiadoComponent implements OnInit {
         console.log('Elementos nas posições ímpares:', this.posicoesImpares);
 
         this.clientes = this.posicoesImpares.map((item: any) => {
-          let unitPrice = item.orders[0].items[0].product.unitPrice;
+          let total = item.orders[0].value;
+          console.log("Valor total: ", total)
           return {
             id: item.id,
             nome: item.name,
             notaPendente: "nota anexada",
             telefone: item.phone,
-            valor: unitPrice,
+            valor: total,
             data: new Date().toLocaleDateString("pt-BR"),
           };
         });
