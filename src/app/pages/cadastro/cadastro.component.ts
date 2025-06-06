@@ -10,12 +10,12 @@ import { Router } from '@angular/router';
 import { SharedService } from '../../../services/shared.service';
 import { OrdersService } from '../../../services/orders.service';
 import { EMPTY, switchMap, take } from 'rxjs';
-
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, NgIf, SucessComponent, HttpClientModule, NgxMaskDirective, NgxMaskPipe],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css'
 })

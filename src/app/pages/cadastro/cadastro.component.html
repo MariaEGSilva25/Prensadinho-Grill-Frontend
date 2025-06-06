@@ -108,7 +108,8 @@
         </div>
 
         <label>Telefone</label>
-        <input type="number" formControlName="phone" maxlength="11" />
+        <input type="text" mask="(00) 00000-0000" formControlName="phone" placeholder="(00) 00000-0000"/>
+
         <div
           *ngIf="
             cadastroForm.get('phone')?.touched &&
@@ -116,7 +117,7 @@
           "
         >
           <small *ngIf="cadastroForm.get('phone')?.errors?.['required']"
-            >O telefone é obrigatório.</small
+            > O telefone deve conter 11 dígitos.</small
           >
         </div>
       </ng-container>
