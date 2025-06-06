@@ -15,6 +15,7 @@ export class FiadoComponent implements OnInit {
   clientes: ClienteType[] = [];
   semClientes: boolean = true;
   posicoesImpares: number[] = []
+  data: any
 
 
   constructor(private fiadoService: FiadoService) { }
@@ -30,16 +31,25 @@ export class FiadoComponent implements OnInit {
 
         console.log('Elementos nas posições ímpares:', this.posicoesImpares);
 
+
         this.clientes = this.posicoesImpares.map((item: any) => {
+
           let total = item.orders[0].value;
-          console.log("Valor total: ", total)
+          console.log("Valor total: ", total);
+
+          const dataOriginal = item.now.split(' ')[1]; // '2025-06-06'
+          const [ano, mes, dia] = dataOriginal.split('-'); // ['2025', '06', '06']
+          const dataFormatada = `${dia}/${mes}/${ano}`; // '06/06/2025'
+
+          this.data = dataOriginal
+
           return {
             id: item.id,
             nome: item.name,
             notaPendente: "nota anexada",
             telefone: item.phone,
             valor: total,
-            data: new Date().toLocaleDateString("pt-BR"),
+            data: dataFormatada,
           };
         });
         this.semClientes = this.clientes.length === 0;

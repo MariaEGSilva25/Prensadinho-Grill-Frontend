@@ -2,7 +2,7 @@
   <div class="header">
     <h1><span class="menu-text">Menu</span> / Fiados</h1>
     <div class="date-time">
-      <span>12/11/2024</span>
+      <span>{{this.data}}</span>
       <span>01:33</span>
     </div>
   </div>
@@ -33,7 +33,7 @@
         <td>{{ cliente.notaPendente }}</td>
         <td>{{ cliente.telefone }}</td>
         <td>R$ {{ cliente.valor }}</td>
-        <td>R$ {{ cliente.data }}</td>
+        <td>{{ cliente.data }}</td>
         <td><img src="assets/menu_humburguer.png" alt="Ação" /></td>
       </tr>
     </tbody>
